@@ -356,6 +356,18 @@
   "selClose": {
     "message": "Close"
   },
+  "transcript": {
+    "message": "Transcript"
+  },
+  "vidPip": {
+    "message": "Picture-in-picture"
+  },
+  "vidPipFail": {
+    "message": "Picture-in-picture is not available"
+  },
+  "vidOpenOriginal": {
+    "message": "Open original page"
+  },
   "trRetry": {
     "message": "Translate again"
   },

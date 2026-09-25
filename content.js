@@ -24,8 +24,8 @@
 
   /* ---------- Làm sạch HTML trích xuất ---------- */
   const DROP_TAGS = new Set(['SCRIPT', 'STYLE', 'LINK', 'META', 'BASE', 'FORM', 'INPUT', 'BUTTON', 'SELECT', 'TEXTAREA', 'OBJECT', 'APPLET', 'NOSCRIPT', 'TEMPLATE', 'FRAME', 'FRAMESET', 'DIALOG']);
-  const KEEP_ATTRS = new Set(['href', 'src', 'srcset', 'sizes', 'alt', 'title', 'poster', 'controls', 'width', 'height', 'colspan', 'rowspan', 'datetime', 'lang', 'dir', 'type', 'allow', 'allowfullscreen', 'loading', 'start', 'reversed', 'cite', 'preload', 'kind', 'srclang', 'label', 'referrerpolicy', 'media', 'class', 'data-rf-ratio', 'data-rf-hls', 'viewbox', 'd', 'fill', 'stroke', 'xmlns']);
-  const KEEP_CLASSES = /^(rf-embed|rf-media|rf-media-missing)$/;
+  const KEEP_ATTRS = new Set(['href', 'src', 'srcset', 'sizes', 'alt', 'title', 'poster', 'controls', 'width', 'height', 'colspan', 'rowspan', 'datetime', 'lang', 'dir', 'type', 'allow', 'allowfullscreen', 'loading', 'start', 'reversed', 'cite', 'preload', 'kind', 'srclang', 'label', 'referrerpolicy', 'media', 'class', 'data-rf-ratio', 'data-rf-hls', 'data-rf-alt-hls', 'data-rf-live', 'viewbox', 'd', 'fill', 'stroke', 'xmlns']);
+  const KEEP_CLASSES = /^(rf-embed|rf-media|rf-media-missing|rf-transcript)$/;
 
   function sanitize(html) {
     const tpl = document.createElement('template');
@@ -34,7 +34,8 @@
     const drop = [];
     for (let el = walker.nextNode(); el; el = walker.nextNode()) {
       if (DROP_TAGS.has(el.tagName)) { drop.push(el); continue; }
-      if (el.tagName === 'IFRAME' && !/^https:\/\//i.test(el.getAttribute('src') || '')) { drop.push(el); continue; }
+      // iframe: chỉ https (trang http thì cho cả http, như chính trang đó vẫn làm)
+      if (el.tagName === 'IFRAME' && !(location.protocol === 'http:' ? /^https?:\/\//i : /^https:\/\//i).test(el.getAttribute('src') || '')) { drop.push(el); continue; }
       for (const a of [...el.attributes]) {
         const n = a.name.toLowerCase();
         if (!KEEP_ATTRS.has(n)) { el.removeAttribute(a.name); continue; }
@@ -90,6 +91,7 @@
       this.opened = true;
       this.s = await rfLoadSettings();
       await rfInitI18n(this.s.uiLang);
+      this.tagLiveVideos();
       const snapshot = document.cloneNode(true);
       snapshot.querySelectorAll(HOST_TAG + ',' + SEL_TAG).forEach((e) => e.remove());
       this.buildUI();
@@ -103,6 +105,8 @@
     close() {
       if (!this.opened) return;
       this.opened = false;
+      this.returnBorrowed();
+      document.querySelectorAll('[data-rf-vid]').forEach((v) => v.removeAttribute('data-rf-vid'));
       this.stopPicker && this.stopPicker();
       this.stopZap();
       if (this.speaker) this.speaker.destroy();
@@ -338,10 +342,13 @@
       this.visited.add(u);
       const next = RFNext.find(doc, url, { visited: this.visited, rule: this.rule });
       const opts = this.extractOpts();
+      opts.liveBig = this.liveBig || [];
       // Trang đang mở: lấy luôn các file video mà player của trang đã tải (m3u8/mp4)
       try {
         opts.resourceUrls = performance.getEntriesByType('resource').map((e) => e.name)
           .filter((n) => /^https?:/.test(n) && /\.(m3u8|mp4|webm)(\?|$)/i.test(n) && !/\/(ads?|vast|preroll)[\/_-]|doubleclick|googlesyndication/i.test(n))
+          // bỏ các mảnh của luồng HLS/DASH (init.mp4, seg-1.mp4, chunk_3.mp4…) — không phát riêng được
+          .filter((n) => !/(^|[\/_-])(init|seg|segment|chunk|frag|fragment|part)[-_]?\d*\.(mp4|webm)(\?|$)/i.test(n) && !/\/\d+\.(mp4|webm)(\?|$)/.test(n))
           .sort((a, b) => (/master|playlist|index/i.test(b) ? 1 : 0) - (/master|playlist|index/i.test(a) ? 1 : 0))
           .filter((n, i, arr) => !(/\.m3u8/i.test(n) && arr.some((m, j) => j < i && /\.m3u8/i.test(m))));
       } catch (e) { /* bỏ qua */ }
@@ -385,6 +392,7 @@
       const art = h('div', { class: 'rf-article' });
       art.append(sanitize(res.html));
       this.setupHls(art);
+      this.setupLiveVideos(art);
       // Readability đã đưa tiêu đề lên phần đầu; bỏ h1 trùng lặp ở đầu bài
       const firstH = art.querySelector('h1, h2');
       const sq = (t) => (t || '').replace(/[\s\u3000]+/g, '');
@@ -610,6 +618,18 @@
 
     /* ---- Video HLS (.m3u8): Chrome không tự phát được, dùng hls.js ---- */
     setupHls(root) {
+      // Nguồn MP4 hỏng thì chuyển sang HLS dự phòng (vd. Substack: …/src?type=hls)
+      for (const v of root.querySelectorAll('video[data-rf-alt-hls]')) {
+        const src = v.querySelector('source:last-of-type');
+        const toHls = () => {
+          if (v.getAttribute('data-rf-hls')) return;
+          v.setAttribute('data-rf-hls', v.getAttribute('data-rf-alt-hls'));
+          v.querySelectorAll('source').forEach((x) => x.remove());
+          v.removeAttribute('src');
+          this.attachHls(v);
+        };
+        if (src) src.addEventListener('error', toHls, { once: true }); else v.addEventListener('error', toHls, { once: true });
+      }
       const vids = [...root.querySelectorAll('video[data-rf-hls]')];
       if (!vids.length) return;
       this.hlsList = this.hlsList || [];
@@ -620,6 +640,7 @@
     }
 
     async attachHls(v) {
+      this.hlsList = this.hlsList || [];
       const url = v.getAttribute('data-rf-hls');
       if (v.canPlayType('application/vnd.apple.mpegurl')) { v.src = url; return; }
       try {
@@ -641,12 +662,104 @@
 
     videoFailed(v) {
       if (!v.isConnected) return;
+      if (v.hasAttribute('data-rf-live') && this.borrow(v, v.getAttribute('data-rf-live'))) return;
       const page = v.closest('.rf-page');
       const url = page ? (this.pages[+page.dataset.idx] || {}).url : location.href;
       const box = h('div', { class: 'rf-media-missing' },
         v.getAttribute('poster') ? h('img', { src: v.getAttribute('poster'), alt: '' }) : null,
         h('a', { href: url || location.href, target: '_blank', rel: 'noopener' }, rfT('mediaVideoOnly')));
       v.replaceWith(box);
+    }
+
+    /* ---- Mượn player gốc của trang đang mở ---- */
+    tagLiveVideos() {
+      // Cả video nằm trong Shadow DOM của custom element (hls-video, mux-player, player web component…)
+      const found = [];
+      const walk = (root, host) => {
+        for (const v of root.querySelectorAll('video')) found.push({ v, host });
+        for (const el of root.querySelectorAll('*')) if (el.shadowRoot) walk(el.shadowRoot, host || el);
+      };
+      walk(document, null);
+      this.liveVideos = found.map((x) => x.v);
+      // Video trong shadow: gắn dấu lên phần tử chủ nằm ngoài, vì bản sao của trang không chứa shadow
+      found.forEach((x, i) => (x.host || x.v).setAttribute('data-rf-vid', String(i)));
+      // Các video đang hiện và đủ lớn, lớn nhất trước: ứng viên cho "video chính" của trang
+      this.liveBig = this.liveVideos.map((v, i) => ({ i, r: v.getBoundingClientRect() }))
+        .filter((x) => x.r.width >= 300 && x.r.height >= 150)
+        .sort((a, b) => b.r.width * b.r.height - a.r.width * a.r.height).map((x) => x.i);
+    }
+
+    setupLiveVideos(root) {
+      // Chưa tìm được nguồn -> dùng luôn thẻ <video> thật của trang
+      for (const ph of root.querySelectorAll('.rf-media-missing[data-rf-live]')) this.borrow(ph, ph.getAttribute('data-rf-live'));
+      // Đã đoán nguồn nhưng phát lỗi (403, 404, định dạng lạ) -> cũng chuyển sang mượn
+      for (const v of root.querySelectorAll('video[data-rf-live]')) {
+        if (v.hasAttribute('data-rf-alt-hls') || v.hasAttribute('data-rf-hls')) continue; // hls.js tự báo lỗi qua videoFailed
+        const fail = () => this.videoFailed(v);
+        const last = v.querySelector('source:last-of-type');
+        if (last) last.addEventListener('error', fail, { once: true }); else v.addEventListener('error', fail, { once: true });
+      }
+    }
+
+    /* Chuyển chính phần tử <video> đang sống vào khung đọc. Luồng MediaSource (blob:), cookie và khoá DRM
+     * đều đi theo phần tử nên video phát được như trên trang gốc. Khi đóng sẽ trả về đúng chỗ cũ. */
+    borrow(target, n) {
+      const v = this.liveVideos && this.liveVideos[+n];
+      if (!v || !v.isConnected || v.getRootNode() !== document) { this.pipBox(target, v); return false; }
+      const marker = document.createComment('rf-borrowed-video');
+      v.parentNode.insertBefore(marker, v);
+      const rec = { v, marker, controls: v.hasAttribute('controls'), style: v.getAttribute('style') };
+      const wrap = h('div', { class: 'rf-borrowed' });
+      target.replaceWith(wrap);
+      wrap.append(v);
+      v.controls = true;
+      v.setAttribute('style', 'display:block;width:100%;height:auto;max-height:80vh;position:static;inset:auto;transform:none;' +
+        'opacity:1;visibility:visible;object-fit:contain;background:#000;margin:0;');
+      wrap.append(h('div', { class: 'rf-borrowed-tools' }, this.pipButton(v),
+        h('a', { href: location.href, target: '_blank', rel: 'noopener' }, rfT('vidOpenOriginal'))));
+      (this.borrowed = this.borrowed || []).push(rec);
+      // Trang tự dựng lại player và lấy phần tử đi -> hiện nút cửa sổ nổi thay thế
+      rec.mo = new MutationObserver(() => {
+        if (wrap.contains(v)) return;
+        rec.mo.disconnect();
+        this.borrowed = this.borrowed.filter((x) => x !== rec);
+        this.pipBox(wrap, v);
+      });
+      rec.mo.observe(wrap, { childList: true });
+      return true;
+    }
+
+    returnBorrowed() {
+      for (const rec of this.borrowed || []) {
+        rec.mo && rec.mo.disconnect();
+        const { v, marker } = rec;
+        if (marker.isConnected) marker.parentNode.insertBefore(v, marker);
+        marker.remove();
+        if (!rec.controls) v.removeAttribute('controls');
+        if (rec.style == null) v.removeAttribute('style'); else v.setAttribute('style', rec.style);
+      }
+      this.borrowed = [];
+    }
+
+    pipButton(v) {
+      if (!v || !document.pictureInPictureEnabled || v.disablePictureInPicture) return null;
+      const b = h('button', { onclick: async () => {
+        try {
+          if (document.pictureInPictureElement === v) await document.exitPictureInPicture();
+          else { await v.requestPictureInPicture(); if (v.paused) v.play().catch(() => {}); }
+        } catch (e) { b.textContent = rfT('vidPipFail'); }
+      } }, rfT('vidPip'));
+      return b;
+    }
+
+    /* Không mượn được: vẫn cho xem bằng cửa sổ nổi, player gốc tiếp tục phát ở trang phía dưới */
+    pipBox(target, v) {
+      const poster = (target.querySelector && target.querySelector('img')) ? target.querySelector('img').getAttribute('src') : (v && v.getAttribute('poster'));
+      const box = h('div', { class: 'rf-media-missing' },
+        poster ? h('img', { src: poster, alt: '' }) : null,
+        v && v.isConnected ? this.pipButton(v) : null,
+        h('a', { href: location.href, target: '_blank', rel: 'noopener' }, rfT('mediaVideoOnly')));
+      target.replaceWith(box);
     }
 
     /* ---- Đọc to (giọng của trình duyệt) ---- */
@@ -860,6 +973,8 @@
 
     restart() {
       if (this.speaker) this.speaker.stop();
+      this.returnBorrowed();
+      this.tagLiveVideos();
       const snapshot = document.cloneNode(true);
       snapshot.querySelectorAll(HOST_TAG + ',' + SEL_TAG).forEach((e) => e.remove());
       this.el.scroll.scrollTop = 0;

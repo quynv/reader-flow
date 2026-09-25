@@ -356,6 +356,18 @@
   "selClose": {
     "message": "Đóng"
   },
+  "transcript": {
+    "message": "Bản chép lời"
+  },
+  "vidPip": {
+    "message": "Xem trong cửa sổ nổi"
+  },
+  "vidPipFail": {
+    "message": "Không mở được cửa sổ nổi"
+  },
+  "vidOpenOriginal": {
+    "message": "Mở trang gốc"
+  },
   "trRetry": {
     "message": "Dịch lại"
   },

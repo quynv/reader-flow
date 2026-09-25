@@ -356,6 +356,18 @@
   "selClose": {
     "message": "閉じる"
   },
+  "transcript": {
+    "message": "文字起こし"
+  },
+  "vidPip": {
+    "message": "ピクチャー・イン・ピクチャー"
+  },
+  "vidPipFail": {
+    "message": "ピクチャー・イン・ピクチャーを開けません"
+  },
+  "vidOpenOriginal": {
+    "message": "元のページを開く"
+  },
   "trRetry": {
     "message": "再翻訳"
   },

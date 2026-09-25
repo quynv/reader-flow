@@ -42,14 +42,23 @@ If something is still left over, open **Settings → Hide clutter** and click it
 ## Video and audio
 
 - Images (including lazy-loaded ones), `<video>`, `<audio>`, `<picture>` and embeds from YouTube, Vimeo, SoundCloud, Spotify, Bilibili, Niconico and others are kept.
+- Media inside link-heavy blocks (such as tutorial "example" boxes) is kept: media is held by placeholders that Readability never cleans away. If Readability still drops the block around a video, the video is put back next to the paragraph that came right before (or after) it on the original page.
+- Players built as web components (`<hls-video src="….m3u8">`, `<mux-player playback-id="…">`, video.js v10 and similar) are recognized, including videos that live inside a component's shadow DOM.
+- A site's own player iframe (for example BBC) is kept when it allows fullscreen/autoplay and is on the same site or looks like a player/embed URL; ad, analytics and widget iframes are ignored.
+- When the article has no media at all, the page's own embeddable player is used if it declares one in `og:video` (type `text/html`) or `twitter:player`, as TED does.
+- YouTube and Vimeo addresses given as a `<video>` source (MediaElement, Plyr) become normal embeds.
+- On the current page, if the extracted content ends up with no media but the page shows a large video (for example a hero video on a product page), that video is placed at the top. A large video with a known source is preferred, then a declared embeddable player, then borrowing the live player.
 - A site's own player (video.js, JW Player, Plyr, MediaElement, Flowplayer, Shaka…) is replaced as a whole by a clean `<video>` element, so no control text ("Current Time", "Duration", "720p"…) leaks into the article.
 - For videos that play from a `blob:` URL, the real source is looked up in this order:
   1. Attributes of the video container, such as `data-vid`, `data-video`, `data-src` or `data-hls`. For example, kenh14 uses `type="VideoStream" data-vid="kenh14cdn.com/…mp4"`.
   2. JSON-LD `VideoObject`.
   3. `og:video`.
   4. On the page that is currently open, the `.m3u8` / `.mp4` files the site's player actually loaded.
+- **Substack**: the post's own video or podcast lives in the player at the top of the page, outside the article body, so it is added back from the page data (`window._preloads`): videos use `/api/v1/video/upload/<id>/src?type=mp4` on the same domain, with `type=hls` as a fallback. Inline Substack video embeds and Substack's YouTube embeds are restored too.
 - HLS sources (`.m3u8`) play through hls.js, which is only loaded when a page really contains HLS video.
-- When no source can be found (DRM, custom players), the poster image is shown with a link to the original page.
+- **Borrowing the page's own player (current page only):** when no source can be found, or the guessed source fails to play, the page's real `<video>` element is moved into the reader. Its `blob:` stream, cookies and DRM keys travel with the element, so it plays exactly as on the original page, including protected video. A small bar under it offers picture-in-picture and a link to the original page. When reader mode closes, the element is put back in its original place with its original attributes.
+- If the site rebuilds its player and takes the element back, or the video is on a page loaded later (page 2 onwards), a **Picture-in-picture** button (when the page still has the player) and a link to the original page are shown instead.
+- Segments of HLS/DASH streams (`init.mp4`, `seg-1.mp4`…) are never mistaken for playable sources.
 
 ## Translation with a local LLM
 
@@ -161,6 +170,6 @@ Nothing is sent anywhere except to the pages you read and the LLM server you con
 ## Known limitations
 
 - "Load more" buttons that only fire AJAX requests, without a real link, are not followed.
-- Videos protected by DRM, or custom players that expose no source, still fall back to a link to the original page.
+- Videos on pages loaded after the first one cannot borrow a live player; if their source cannot be found they fall back to a link to the original page. On some systems, DRM video with hardware protection may show a black picture after being moved; use picture-in-picture or the original page then.
 - HLS streams on a different domain need that CDN to allow cross-origin requests, as the site's own player does.
 - Pages that need JavaScript are opened briefly in an inactive background tab and closed again.
