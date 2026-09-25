@@ -42,6 +42,7 @@ If something is still left over, open **Settings → Hide clutter** and click it
 ## Video and audio
 
 - Images (including lazy-loaded ones), `<video>`, `<audio>`, `<picture>` and embeds from YouTube, Vimeo, SoundCloud, Spotify, Bilibili, Niconico and others are kept.
+- Elementor E-Gallery images are restored from their full-size links or background-image thumbnails, even when the gallery contains no `<img>` elements.
 - Media inside link-heavy blocks (such as tutorial "example" boxes) is kept: media is held by placeholders that Readability never cleans away. If Readability still drops the block around a video, the video is put back next to the paragraph that came right before (or after) it on the original page.
 - Players built as web components (`<hls-video src="….m3u8">`, `<mux-player playback-id="…">`, video.js v10 and similar) are recognized, including videos that live inside a component's shadow DOM.
 - **Borrowing the page's player iframe (current page only):** iframes are moved into the reader with `Element.moveBefore()` (Chrome 133+), which keeps them running without reloading. This matters for players that the page drives through `postMessage`, such as BBC's SMP (`emp.bbc.co.uk/…/iframe.html`), which would be empty if opened fresh. A **⧉** picture-in-picture button is added inside the player iframe itself (the click has to happen inside that frame). On pages loaded later, such controlled iframes are replaced by a link to the original page.
@@ -50,7 +51,7 @@ If something is still left over, open **Settings → Hide clutter** and click it
 - When the article has no media at all, the page's own embeddable player is used if it declares one in `og:video` (type `text/html`) or `twitter:player`, as TED does.
 - YouTube and Vimeo addresses given as a `<video>` source (MediaElement, Plyr) become normal embeds.
 - On the current page, if the extracted content ends up with no media but the page shows a large video (for example a hero video on a product page), that video is placed at the top. A large video with a known source is preferred, then a declared embeddable player, then borrowing the live player.
-- A site's own player (video.js, JW Player, Plyr, MediaElement, Flowplayer, Shaka…) is replaced as a whole by a clean `<video>` element, so no control text ("Current Time", "Duration", "720p"…) leaks into the article.
+- A site's own player (video.js, JW Player, Plyr, MediaElement, Flowplayer, Shaka, DPlayer…) is replaced as a whole by a clean `<video>` element, so no control text ("Current Time", "Duration", "720p"…) leaks into the article.
 - For videos that play from a `blob:` URL, the real source is looked up in this order:
   1. Attributes of the video container, such as `data-vid`, `data-video`, `data-src` or `data-hls`. For example, kenh14 uses `type="VideoStream" data-vid="kenh14cdn.com/…mp4"`.
   2. JSON-LD `VideoObject`.

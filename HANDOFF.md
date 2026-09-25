@@ -164,7 +164,7 @@ Settings keys (`RF_DEFAULTS`):
 
 ## 6. Extraction pipeline (lib/extract.js → `extract(doc, url, opts)`)
 
-1. `prepare()`: sets `<base>`, fixes lazy images (`data-src`, `data-srcset`, …), makes media URLs absolute.
+1. `prepare()`: sets `<base>`, fixes lazy images (`data-src`, `data-srcset`, …), converts Elementor E-Gallery background images into real `<img>` elements, and makes media URLs absolute.
 2. **Lead adapters**, run before cleaning because they need `<script>` data. Currently only `substackLead`:
    - reads `window._preloads`: `post.videoUpload.id`, `podcast_url`, `publishedBylines`, `post_date`;
    - falls back to `video[data-video-id]` and then the `og:image` path to find the video ID;
@@ -177,7 +177,7 @@ Settings keys (`RF_DEFAULTS`):
    - **Step 1c:** custom-element players: `*-*` tags with an m3u8/mp4 `src`, or with `playback-id` (Mux → `stream.mux.com/<id>.m3u8`).
    - **Step 1b:** elements whose `data-attrs` JSON contains `mediaUploadId` (Substack) or `videoId` (YouTube wrappers).
    - **Step 2:** `picture`, `video`, `audio`, `iframe` and `embed` through `mediaHtml()`:
-     - known player frameworks are replaced by their root (`PLAYER_ROOT`);
+     - known player frameworks, including DPlayer, are replaced by their root (`PLAYER_ROOT`);
      - YouTube/Vimeo URLs given as `<source>` become embeds;
      - `blob:` videos are recovered from attributes, then JSON-LD `VideoObject`, then `og:video`, then `resourceUrls`, in that order;
      - Substack `data-video-id` is handled;

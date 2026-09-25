@@ -52,6 +52,24 @@ globalThis.RFExtract = (() => {
       if (!f.getAttribute('src') || f.getAttribute('src') === 'about:blank') f.setAttribute('src', f.getAttribute('data-src') || f.getAttribute('data-lazy-src'));
     }
 
+    // Elementor E-Gallery vẽ ảnh bằng background-image trên <div>, không có thẻ <img> cho Readability giữ lại.
+    for (const el of [...doc.querySelectorAll('.e-gallery-image')]) {
+      if (el.querySelector('img')) continue;
+      const item = el.closest('.e-gallery-item');
+      const href = item && item.matches('a[href]') ? item.getAttribute('href') : '';
+      const thumb = el.getAttribute('data-thumbnail') || '';
+      const css = /background-image\s*:\s*url\(["']?([^"')]+)["']?\)/i.exec(el.getAttribute('style') || '');
+      const src = /\.(avif|gif|jpe?g|png|svg|webp)(\?|#|$)/i.test(href) ? href : thumb || (css && css[1]);
+      if (!src) continue;
+      const img = doc.createElement('img');
+      img.setAttribute('src', src);
+      const alt = el.getAttribute('aria-label') || el.getAttribute('alt') || (item && item.getAttribute('data-elementor-lightbox-title')) || '';
+      img.setAttribute('alt', alt);
+      if (el.getAttribute('data-width')) img.setAttribute('width', el.getAttribute('data-width'));
+      if (el.getAttribute('data-height')) img.setAttribute('height', el.getAttribute('data-height'));
+      el.replaceWith(img);
+    }
+
     // URL tuyệt đối cho media
     for (const el of doc.querySelectorAll('img, source, video, audio, iframe, track, embed')) {
       for (const at of ['src', 'poster']) if (el.hasAttribute(at)) el.setAttribute(at, abs(el.getAttribute(at), baseUrl));
@@ -77,13 +95,13 @@ globalThis.RFExtract = (() => {
     'data-file', 'data-mp4', 'data-hls', 'data-source', 'data-stream', 'data-media', 'data-video-file', 'data-src-mp4', 'data-original'];
   const POSTER_ATTRS = ['poster', 'data-poster', 'data-thumb', 'data-thumbnail', 'data-image', 'data-cover', 'data-img'];
   // Khung của các thư viện player phổ biến (video.js, JW Player, Plyr, MediaElement, Flowplayer, Shaka…)
-  const PLAYER_ROOT = '.video-js, .vjs-player, .jwplayer, .jw-wrapper, .plyr, .mejs-container, .mejs__container, .flowplayer, .fp-player, ' +
+  const PLAYER_ROOT = '.video-js, .vjs-player, .jwplayer, .jw-wrapper, .plyr, .mejs-container, .mejs__container, .flowplayer, .fp-player, .dplayer, ' +
     '.shaka-video-container, .media-player, .video-player, .videoplayer, [data-player], [type="VideoStream"], [class*="VideoPlayer"], [class*="video-player"], ' +
     '[class*="player" i], [id*="player" i]';
   // Phần điều khiển của player: chữ "Current Time", "Duration", danh sách 720p/480p… nằm ở đây
   const PLAYER_CHROME = '.vjs-control-bar, .vjs-menu, .vjs-menu-button, .vjs-text-track-display, .vjs-loading-spinner, .vjs-big-play-button, ' +
     '.vjs-modal-dialog, .vjs-control-text, .vjs-poster, .vjs-title-bar, .jw-controls, .jw-overlays, .jw-title, .plyr__controls, .mejs-controls, ' +
-    '.mejs__controls, .fp-ui, .shaka-controls-container, .shaka-spinner-container';
+    '.mejs__controls, .fp-ui, .shaka-controls-container, .shaka-spinner-container, .dplayer > :not(.dplayer-video-wrap)';
 
   function absMedia(v, base) {
     if (!v) return null;
