@@ -58,6 +58,25 @@ button:focus-visible, select:focus-visible, input:focus-visible, a:focus-visible
 
 .rf-progress { position: absolute; top: 0; left: 0; height: 2px; background: var(--accent); z-index: 4; width: 0; }
 
+/* Xác nhận đóng: giữ hoặc huỷ phiên đọc hiện tại. */
+.rf-close-overlay {
+  position: absolute; inset: 0; z-index: 20; display: grid; place-items: center;
+  padding: 20px; background: rgba(0, 0, 0, .5);
+}
+.rf-close-dialog {
+  width: min(440px, 100%); padding: 24px; border: 1px solid var(--rule); border-radius: 12px;
+  background: var(--paper); color: var(--ink); box-shadow: 0 20px 60px rgba(0, 0, 0, .28);
+}
+.rf-close-dialog h2 { margin: 0 0 8px; font-size: 19px; line-height: 1.35; }
+.rf-close-dialog p { margin: 0 0 22px; color: var(--muted); line-height: 1.5; }
+.rf-close-actions { display: flex; justify-content: flex-end; gap: 8px; flex-wrap: wrap; }
+.rf-close-actions button {
+  font: inherit; padding: 8px 12px; border: 1px solid var(--rule); border-radius: 7px;
+  background: transparent; color: var(--ink); cursor: pointer;
+}
+.rf-close-actions button:hover { border-color: var(--accent); }
+.rf-close-actions .rf-close-temporary { background: var(--accent); border-color: var(--accent); color: var(--paper); }
+
 /* Bảng cài đặt nhanh */
 .rf-panel {
   position: absolute; top: 52px; right: 12px; z-index: 5; width: min(340px, calc(100vw - 24px));

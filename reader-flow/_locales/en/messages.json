@@ -47,6 +47,21 @@
   "closeLabel": {
     "message": "Close reader mode"
   },
+  "closePrompt": {
+    "message": "Leave reader mode?"
+  },
+  "closePromptHint": {
+    "message": "Leave temporarily to keep the article and completed translations in this tab. Leave permanently to discard them."
+  },
+  "closeCancel": {
+    "message": "Cancel"
+  },
+  "closeTemporary": {
+    "message": "Leave temporarily"
+  },
+  "closePermanent": {
+    "message": "Leave permanently"
+  },
   "panelLabel": {
     "message": "Reading settings"
   },

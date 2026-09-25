@@ -47,6 +47,21 @@
   "closeLabel": {
     "message": "Đóng chế độ đọc"
   },
+  "closePrompt": {
+    "message": "Thoát chế độ đọc?"
+  },
+  "closePromptHint": {
+    "message": "Thoát tạm thời để giữ bài viết và các đoạn đã dịch trong tab này. Thoát hẳn sẽ xoá phiên đọc."
+  },
+  "closeCancel": {
+    "message": "Huỷ"
+  },
+  "closeTemporary": {
+    "message": "Thoát tạm thời"
+  },
+  "closePermanent": {
+    "message": "Thoát hẳn"
+  },
   "panelLabel": {
     "message": "Cài đặt đọc"
   },

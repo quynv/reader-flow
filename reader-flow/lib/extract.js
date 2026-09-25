@@ -204,7 +204,8 @@ globalThis.RFExtract = (() => {
   function markLive(html, el) {
     const v = el && (el.matches && el.matches('[data-rf-vid]') ? el : el.querySelector && el.querySelector('[data-rf-vid]'));
     if (!v) return html;
-    return html.replace(/^<(video|div)\b/, `<$1 data-rf-live="${escAttr(v.getAttribute('data-rf-vid'))}"`);
+    const pip = el.closest && el.closest('.dplayer') ? ' data-rf-pip="1"' : '';
+    return html.replace(/^<(video|div)\b/, `<$1 data-rf-live="${escAttr(v.getAttribute('data-rf-vid'))}"${pip}`);
   }
 
   /* <video><source src="https://www.youtube.com/watch?v=…"> (MediaElement, Plyr…) -> iframe nhúng */
@@ -422,6 +423,12 @@ globalThis.RFExtract = (() => {
     const store = [];
     const base = (doc.querySelector('base[href]') || {}).href || pageUrl;
     const put = (el, html) => {
+      // DPlayer cần script/trạng thái của trang gốc; bản sao <video> không phát ổn định.
+      if (el.closest && el.closest('.dplayer') && /^<(video\b|div class="rf-media-missing")/.test(html)) {
+        const video = el.matches('video') ? el : el.querySelector('video');
+        const poster = (video && absMedia(video.getAttribute('poster'), base)) || posterFrom(el, base);
+        html = missingHtml(poster, pageUrl, 'video');
+      }
       const i = store.push(markLiveFrame(markLive(html, el), el)) - 1;
       store.anchors = store.anchors || [];
       store.anchors[i] = anchorsOf(el);
@@ -476,7 +483,10 @@ globalThis.RFExtract = (() => {
       if (el.tagName === 'IFRAME' && /^https:\/\/rf-media\.invalid\//.test(el.getAttribute('src') || '')) continue; // ký hiệu giữ chỗ của bước 1
       if (isInAdOrChrome(el)) continue;
       ctx.root = el.tagName === 'VIDEO' || el.tagName === 'AUDIO' ? playerRoot(el) : el;
-      const html = mediaHtml(el, pageUrl, ctx);
+      let html = mediaHtml(el, pageUrl, ctx);
+      if (!html && el.tagName === 'VIDEO' && ctx.root.closest('.dplayer')) {
+        html = missingHtml(absMedia(el.getAttribute('poster'), base) || posterFrom(ctx.root, base), pageUrl, 'video');
+      }
       if (!html) continue;
       put(ctx.root, html);
     }

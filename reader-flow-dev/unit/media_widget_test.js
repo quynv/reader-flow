@@ -33,17 +33,45 @@ function test(name, fn) {
   }
 }
 
-test('DPlayer keeps video without controller chrome', () => {
+test('DPlayer offers the live player for PiP without cloning video or controller chrome', () => {
   const chrome = 'Controller junk Current Time Duration Quality 720p 480p Playback speed Danmaku opacity '.repeat(5);
   const html = run(`<div class="dplayer">
-    <div class="dplayer-video-wrap"><video class="dplayer-video-current" src="https://cdn.example.com/movie.mp4"></video></div>
+    <div class="dplayer-video-wrap"><video class="dplayer-video-current" data-rf-vid="0" src="https://cdn.example.com/movie.mp4"></video></div>
     <div class="dplayer-danmaku">${chrome}</div>
     <div class="dplayer-controller">${chrome}</div>
     <div class="dplayer-menu">${chrome}</div>
     <div class="dplayer-info-panel">${chrome}</div>
   </div>`);
-  assert.match(html, /<video\b[^>]*>[\s\S]*movie\.mp4[\s\S]*<\/video>/, 'DPlayer video must be preserved');
+  const out = new JSDOM(`<body>${html}</body>`).window.document;
+  const slot = out.querySelector('.rf-media-missing[data-rf-live="0"][data-rf-pip="1"]');
+  assert.ok(slot, 'DPlayer must point to the live video for PiP');
+  assert.ok(!out.querySelector('video'), 'DPlayer video must not be cloned into the reader');
   assert.doesNotMatch(html, /Controller junk|Current Time|Quality 720p|Danmaku opacity/, 'DPlayer controls must not leak into the article');
+});
+
+test('DPlayer data-src shortcut also keeps its live video for PiP', () => {
+  const html = run(`<div class="dplayer" data-src="https://cdn.example.com/movie.mp4">
+    <div class="dplayer-video-wrap"><video data-rf-vid="0" src="blob:https://example.com/stream"></video></div>
+    <div class="dplayer-controller">Current Time Duration</div>
+  </div>`);
+  const out = new JSDOM(`<body>${html}</body>`).window.document;
+  assert.ok(out.querySelector('.rf-media-missing[data-rf-live="0"][data-rf-pip="1"]'));
+  assert.ok(!out.querySelector('video'));
+});
+
+test('DPlayer with a script-managed video still offers PiP', () => {
+  const html = run(`<div class="dplayer"><div class="dplayer-video-wrap"><video data-rf-vid="0"></video></div>
+    <div class="dplayer-controller">Current Time Duration</div></div>`);
+  const out = new JSDOM(`<body>${html}</body>`).window.document;
+  assert.ok(out.querySelector('.rf-media-missing[data-rf-live="0"][data-rf-pip="1"]'));
+});
+
+test('DPlayer on a fetched page links to the original when no live video exists', () => {
+  const html = run(`<div class="dplayer"><div class="dplayer-video-wrap"><video></video></div>
+    <div class="dplayer-controller">Current Time Duration</div></div>`);
+  const out = new JSDOM(`<body>${html}</body>`).window.document;
+  assert.ok(out.querySelector('.rf-media-missing a[href="https://example.com/article"]'));
+  assert.ok(!out.querySelector('video'));
 });
 
 test('Elementor gallery preserves background images', () => {

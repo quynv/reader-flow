@@ -24,7 +24,7 @@
 
   /* ---------- Làm sạch HTML trích xuất ---------- */
   const DROP_TAGS = new Set(['SCRIPT', 'STYLE', 'LINK', 'META', 'BASE', 'FORM', 'INPUT', 'BUTTON', 'SELECT', 'TEXTAREA', 'OBJECT', 'APPLET', 'NOSCRIPT', 'TEMPLATE', 'FRAME', 'FRAMESET', 'DIALOG']);
-  const KEEP_ATTRS = new Set(['href', 'src', 'srcset', 'sizes', 'alt', 'title', 'poster', 'controls', 'width', 'height', 'colspan', 'rowspan', 'datetime', 'lang', 'dir', 'type', 'allow', 'allowfullscreen', 'loading', 'start', 'reversed', 'cite', 'preload', 'kind', 'srclang', 'label', 'referrerpolicy', 'media', 'class', 'data-rf-ratio', 'data-rf-hls', 'data-rf-alt-hls', 'data-rf-live', 'data-rf-live-frame', 'data-rf-controlled', 'viewbox', 'd', 'fill', 'stroke', 'xmlns']);
+  const KEEP_ATTRS = new Set(['href', 'src', 'srcset', 'sizes', 'alt', 'title', 'poster', 'controls', 'width', 'height', 'colspan', 'rowspan', 'datetime', 'lang', 'dir', 'type', 'allow', 'allowfullscreen', 'loading', 'start', 'reversed', 'cite', 'preload', 'kind', 'srclang', 'label', 'referrerpolicy', 'media', 'class', 'data-rf-ratio', 'data-rf-hls', 'data-rf-alt-hls', 'data-rf-live', 'data-rf-pip', 'data-rf-live-frame', 'data-rf-controlled', 'viewbox', 'd', 'fill', 'stroke', 'xmlns']);
   const KEEP_CLASSES = /^(rf-embed|rf-media|rf-media-missing|rf-transcript)$/;
 
   function sanitize(html) {
@@ -83,12 +83,15 @@
     get rule() { return (this.s.siteRules || {})[this.host] || null; }
 
     async toggle() {
-      if (this.opened) this.close(); else await this.open();
+      if (this.suspended) await this.resume();
+      else if (this.opened) this.requestClose();
+      else await this.open();
     }
 
     async open() {
       if (this.opened) return;
       this.opened = true;
+      this.sessionUrl = this.normUrl(location.href);
       this.s = await rfLoadSettings();
       await rfInitI18n(this.s.uiLang);
       this.tagLiveVideos();
@@ -102,9 +105,74 @@
       await this.startFrom(snapshot, location.href);
     }
 
+    /* Hỏi cách đóng để người đọc không mất bài và bản dịch đã hoàn thành do bấm nhầm. */
+    requestClose() {
+      if (!this.opened || this.suspended || this.closeDialog) return;
+      if (this.peekBack) { this.peekBack(); this.peekBack = null; }
+      if (this.stopPicker) this.stopPicker();
+      if (this.zapping) this.stopZap();
+      const title = h('h2', { id: 'rf-close-title' }, rfT('closePrompt'));
+      const cancel = h('button', { class: 'rf-close-cancel', onclick: () => this.dismissCloseDialog() }, rfT('closeCancel'));
+      const temporary = h('button', { class: 'rf-close-temporary', onclick: () => this.suspend() }, rfT('closeTemporary'));
+      const permanent = h('button', { class: 'rf-close-permanent', onclick: () => this.close() }, rfT('closePermanent'));
+      this.closeFocus = this.hostEl.shadowRoot ? this.hostEl.shadowRoot.activeElement : document.activeElement;
+      this.closeDialog = h('div', { class: 'rf-close-overlay' },
+        h('div', { class: 'rf-close-dialog', role: 'dialog', 'aria-modal': 'true', 'aria-labelledby': 'rf-close-title' },
+          title, h('p', {}, rfT('closePromptHint')),
+          h('div', { class: 'rf-close-actions' }, cancel, temporary, permanent)));
+      this.el.root.append(this.closeDialog);
+      temporary.focus();
+    }
+
+    dismissCloseDialog() {
+      if (!this.closeDialog) return;
+      this.closeDialog.remove();
+      this.closeDialog = null;
+      if (this.closeFocus && this.closeFocus.isConnected) this.closeFocus.focus({ preventScroll: true });
+      this.closeFocus = null;
+    }
+
+    /* Ẩn phiên trong tab này; DOM bài, vị trí cuộn và các đoạn dịch đã xong vẫn còn nguyên. */
+    suspend() {
+      if (!this.opened || this.suspended) return;
+      this.dismissCloseDialog();
+      if (this.speaker) this.speaker.stop();
+      this.resumeTranslation = !!(this.translator && this.translator.active);
+      if (this.resumeTranslation) this.translator.stop();
+      this.returnBorrowed(true);
+      this.suspended = true;
+      this.hostEl.style.display = 'none';
+      document.documentElement.style.overflow = this.prevOverflow || '';
+      document.removeEventListener('keydown', this.onKey, true);
+    }
+
+    async resume() {
+      if (!this.suspended) return;
+      // Điều hướng trong cùng tab làm phiên cũ không còn thuộc trang đang xem.
+      if (this.sessionUrl !== this.normUrl(location.href)) { this.close(); await this.open(); return; }
+      this.suspended = false;
+      this.hostEl.style.display = 'block';
+      document.documentElement.style.overflow = 'hidden';
+      document.addEventListener('keydown', this.onKey, true);
+      for (const rec of this.suspendedMedia || []) {
+        if (!rec.target.isConnected) continue;
+        if (rec.frame) this.borrowFrame(rec.target, rec.n);
+        else this.borrow(rec.target, rec.n);
+      }
+      this.suspendedMedia = [];
+      if (this.resumeTranslation && this.translator) this.translator.start();
+      this.resumeTranslation = false;
+      this.el.scroll.focus({ preventScroll: true });
+    }
+
     close() {
       if (!this.opened) return;
+      this.dismissCloseDialog();
       this.opened = false;
+      this.suspended = false;
+      this.suspendedMedia = [];
+      this.resumeTranslation = false;
+      this.sessionUrl = null;
       if (this.peekBack) { this.peekBack(); this.peekBack = null; }
       this.returnBorrowed();
       document.querySelectorAll('[data-rf-vid], [data-rf-ifr]').forEach((v) => { v.removeAttribute('data-rf-vid'); v.removeAttribute('data-rf-ifr'); });
@@ -173,13 +241,15 @@
           h('button', { class: 'rf-opt', title: rfT('fontSmaller'), 'aria-label': rfT('fontSmaller'), onclick: () => this.bump('fontSize', -1, 13, 32) }, 'A−'),
           h('button', { class: 'rf-opt', title: rfT('fontLarger'), 'aria-label': rfT('fontLarger'), onclick: () => this.bump('fontSize', 1, 13, 32) }, 'A+'),
           E.listenBtn, E.trBtn, E.panelBtn,
-          h('button', { title: rfT('closeTitle'), 'aria-label': rfT('closeLabel'), onclick: () => this.close() }, '✕')));
+          h('button', { title: rfT('closeTitle'), 'aria-label': rfT('closeLabel'), onclick: () => this.requestClose() }, '✕')));
     }
 
     /* Đổi ngôn ngữ giao diện khi đang mở: dựng lại thanh công cụ, bảng cài đặt và các nhãn đã hiển thị. */
     async relabel() {
       await rfInitI18n(this.s.uiLang);
       if (!this.opened || !this.el) return;
+      const closeOpen = !!this.closeDialog;
+      if (closeOpen) this.dismissCloseDialog();
       const E = this.el;
       const panelOpen = !E.panel.hidden;
       const bar = this.buildBar(), panel = this.buildPanel(), player = this.buildPlayer();
@@ -198,6 +268,7 @@
       this.updateCounter();
       if (this.lastStatus) this.setStatus(...this.lastStatus); else this.idleStatus();
       if (this.translator) this.translator.status();
+      if (closeOpen) this.requestClose();
     }
 
     buildPanel() {
@@ -313,9 +384,10 @@
       if (this.zapping && e.key === 'ArrowUp') { e.preventDefault(); e.stopPropagation(); this.zapGrow(); return; }
       if (e.key === 'Escape') {
         e.stopPropagation();
+        if (this.closeDialog) { e.preventDefault(); this.dismissCloseDialog(); return; }
         if (this.picking) return;
         if (this.zapping) { this.stopZap(); return; }
-        if (!this.el.panel.hidden) this.togglePanel(false); else this.close();
+        if (!this.el.panel.hidden) this.togglePanel(false); else this.requestClose();
       }
     }
 
@@ -703,7 +775,11 @@
         box.replaceWith(h('div', { class: 'rf-media-missing' }, h('a', { href: url, target: '_blank', rel: 'noopener' }, rfT('mediaVideoOnly'))));
       }
       // Chưa tìm được nguồn -> dùng luôn thẻ <video> thật của trang
-      for (const ph of root.querySelectorAll('.rf-media-missing[data-rf-live]')) this.borrow(ph, ph.getAttribute('data-rf-live'));
+      for (const ph of root.querySelectorAll('.rf-media-missing[data-rf-live]')) {
+        const v = this.liveVideos && this.liveVideos[+ph.getAttribute('data-rf-live')];
+        if (ph.hasAttribute('data-rf-pip')) this.pipBox(ph, v);
+        else this.borrow(ph, ph.getAttribute('data-rf-live'));
+      }
       // Đã đoán nguồn nhưng phát lỗi (403, 404, định dạng lạ) -> cũng chuyển sang mượn
       for (const v of root.querySelectorAll('video[data-rf-live]')) {
         if (v.hasAttribute('data-rf-alt-hls') || v.hasAttribute('data-rf-hls')) continue; // hls.js tự báo lỗi qua videoFailed
@@ -720,9 +796,10 @@
       if (!v || !v.isConnected || v.getRootNode() !== document) { this.pipBox(target, v); return false; }
       const marker = document.createComment('rf-borrowed-video');
       v.parentNode.insertBefore(marker, v);
-      const rec = { v, marker, controls: v.hasAttribute('controls'), style: v.getAttribute('style') };
+      const rec = { v, marker, n, controls: v.hasAttribute('controls'), style: v.getAttribute('style') };
       const wrap = h('div', { class: 'rf-borrowed' });
       target.replaceWith(wrap);
+      rec.target = wrap;
       wrap.append(v);
       v.controls = true;
       v.setAttribute('style', 'display:block;width:100%;height:auto;max-height:80vh;position:static;inset:auto;transform:none;' +
@@ -753,7 +830,7 @@
       }
       const marker = document.createComment('rf-borrowed-frame');
       f.parentNode.insertBefore(marker, f);
-      const rec = { v: f, marker, frame: true, style: f.getAttribute('style') };
+      const rec = { v: f, marker, n, target: box, frame: true, style: f.getAttribute('style') };
       box.replaceChildren();
       try { box.moveBefore(f, null); } catch (e) { marker.remove(); if (controlled) this.peekBox(box, f); return false; }
       f.setAttribute('style', 'position:absolute;inset:0;width:100%;height:100%;border:0;display:block;visibility:visible;opacity:1;');
@@ -761,6 +838,7 @@
         h('span', { class: 'rf-hint' }, rfT('vidFramePip')),
         h('a', { href: location.href, target: '_blank', rel: 'noopener' }, rfT('vidOpenOriginal')));
       box.after(tools);
+      rec.tools = tools;
       (this.borrowed = this.borrowed || []).push(rec);
       chrome.runtime.sendMessage({ type: 'rf-frame-pip', url: f.src, label: rfT('vidPip') }).catch(() => {});
       return true;
@@ -798,9 +876,11 @@
       target.replaceWith(box);
     }
 
-    returnBorrowed() {
+    returnBorrowed(preserve = false) {
+      if (preserve) this.suspendedMedia = (this.borrowed || []).map(({ target, n, frame }) => ({ target, n, frame }));
       for (const rec of this.borrowed || []) {
         rec.mo && rec.mo.disconnect();
+        if (preserve && rec.tools) rec.tools.remove();
         const { v, marker } = rec;
         if (marker.isConnected && rec.frame && typeof marker.parentNode.moveBefore === 'function') {
           try { marker.parentNode.moveBefore(v, marker); } catch (e) { marker.parentNode.insertBefore(v, marker); }

@@ -12,7 +12,7 @@ After updating to a new version, click **Reload** on the extension card. The rig
 
 ## Basic use
 
-- Open reader mode by clicking the toolbar icon, pressing `Alt+R`, or right-clicking the page and choosing **Open in Reader Flow**. Press `Esc` to close it.
+- Open reader mode by clicking the toolbar icon, pressing `Alt+R`, or right-clicking the page and choosing **Open in Reader Flow**. Press `Esc` or click **×** to choose how to leave. **Leave temporarily** keeps the parsed article, completed translations, and reading position in this tab; use the toolbar icon or `Alt+R` to resume. Translation in progress pauses and resumes when you reopen. **Leave permanently** discards the reading session. Reloading or navigating away also loses a temporary session.
 - While you read page 1, page 2 loads in the background. When you reach page 2, page 3 is found and loaded, and so on up to **Maximum pages**. **Pages to preload** controls how far ahead it loads; set it to 0 to load only when you scroll near the end.
 - Pages that need JavaScript to show their content are opened briefly in an inactive background tab, read, and closed again.
 
@@ -51,7 +51,7 @@ If something is still left over, open **Settings → Hide clutter** and click it
 - When the article has no media at all, the page's own embeddable player is used if it declares one in `og:video` (type `text/html`) or `twitter:player`, as TED does.
 - YouTube and Vimeo addresses given as a `<video>` source (MediaElement, Plyr) become normal embeds.
 - On the current page, if the extracted content ends up with no media but the page shows a large video (for example a hero video on a product page), that video is placed at the top. A large video with a known source is preferred, then a declared embeddable player, then borrowing the live player.
-- A site's own player (video.js, JW Player, Plyr, MediaElement, Flowplayer, Shaka, DPlayer…) is replaced as a whole by a clean `<video>` element, so no control text ("Current Time", "Duration", "720p"…) leaks into the article.
+- Most site players (video.js, JW Player, Plyr, MediaElement, Flowplayer, Shaka…) are replaced by a clean `<video>` element, so no control text ("Current Time", "Duration", "720p"…) leaks into the article. DPlayer instead stays on the original page and offers a **Picture-in-picture** button in the reader, since a copied video may not play without DPlayer's page scripts. On later pages without a live player, the reader links to the original page.
 - For videos that play from a `blob:` URL, the real source is looked up in this order:
   1. Attributes of the video container, such as `data-vid`, `data-video`, `data-src` or `data-hls`. For example, kenh14 uses `type="VideoStream" data-vid="kenh14cdn.com/…mp4"`.
   2. JSON-LD `VideoObject`.

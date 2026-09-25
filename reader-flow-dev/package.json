@@ -3,7 +3,7 @@
   "private": true,
   "description": "Test harness for Reader Flow (not shipped with the extension)",
   "scripts": {
-    "unit": "node unit/np_test.js && node unit/series_test.js && node unit/date_test.js && node unit/video_test.js && node unit/media_widget_test.js && node unit/run_extract.js unit/asahi_like3.html",
+    "unit": "node unit/np_test.js && node unit/series_test.js && node unit/date_test.js && node unit/video_test.js && node unit/media_widget_test.js && node unit/reader_session_test.js && node unit/run_extract.js unit/asahi_like3.html",
     "i18n": "python3 i18n/build.py",
     "server": "python3 server/server.py"
   },

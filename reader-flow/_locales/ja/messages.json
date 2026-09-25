@@ -47,6 +47,21 @@
   "closeLabel": {
     "message": "リーダーモードを閉じる"
   },
+  "closePrompt": {
+    "message": "リーダーモードを終了しますか？"
+  },
+  "closePromptHint": {
+    "message": "一時的に閉じると、このタブの記事と翻訳済みテキストが保持されます。完全に終了すると読書セッションは破棄されます。"
+  },
+  "closeCancel": {
+    "message": "キャンセル"
+  },
+  "closeTemporary": {
+    "message": "一時的に閉じる"
+  },
+  "closePermanent": {
+    "message": "完全に終了"
+  },
   "panelLabel": {
     "message": "表示設定"
   },

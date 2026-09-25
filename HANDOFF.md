@@ -117,6 +117,7 @@ Settings keys (`RF_DEFAULTS`):
 
 **Open / close**
 - `open()` does, in order: load settings, init i18n, `tagLiveVideos()`, clone the live `document` as a snapshot, `buildUI()`, `createSpeaker()`, `startFrom(snapshot, location.href)`.
+- `requestClose()` opens a choice dialog (toolbar × or Esc): cancel, temporarily leave, or permanently leave. `suspend()` hides the host but retains the parsed/translated DOM and scroll position, stops speech/active translation, returns borrowed media to the page, and releases page scroll. `resume()` re-shows the same session, re-borrows available media, and resumes translation if it was active. A changed page URL starts a fresh session instead. Reloading the tab discards a suspended session.
 - `close()` does: dismiss any "view on page" state, `returnBorrowed()`, remove `data-rf-vid`/`data-rf-ifr` tags, destroy speaker/HLS/translator, remove the host.
 
 **Page loop**
@@ -177,7 +178,7 @@ Settings keys (`RF_DEFAULTS`):
    - **Step 1c:** custom-element players: `*-*` tags with an m3u8/mp4 `src`, or with `playback-id` (Mux → `stream.mux.com/<id>.m3u8`).
    - **Step 1b:** elements whose `data-attrs` JSON contains `mediaUploadId` (Substack) or `videoId` (YouTube wrappers).
    - **Step 2:** `picture`, `video`, `audio`, `iframe` and `embed` through `mediaHtml()`:
-     - known player frameworks, including DPlayer, are replaced by their root (`PLAYER_ROOT`);
+     - known player frameworks are replaced by their root (`PLAYER_ROOT`); DPlayer is special: extraction emits a `data-rf-pip` missing-media placeholder, and `setupLiveVideos()` offers PiP for the original page's live video rather than cloning or borrowing it. Later pages link to the original page;
      - YouTube/Vimeo URLs given as `<source>` become embeds;
      - `blob:` videos are recovered from attributes, then JSON-LD `VideoObject`, then `og:video`, then `resourceUrls`, in that order;
      - Substack `data-video-id` is handled;
