@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reader Flow</title>
+<link rel="stylesheet" href="options.css">
+</head>
+<body>
+<main>
+  <h1>Reader Flow</h1>
+  <p class="lead" data-i18n-html="optLeadHtml"></p>
+
+  <section>
+    <h2 data-i18n="secGeneral"></h2>
+    <label><span data-i18n="uiLanguage"></span>
+      <select data-key="uiLang" id="uiLang"></select></label>
+  </section>
+
+  <section>
+    <h2 data-i18n="secPaging"></h2>
+    <label><span data-i18n="optMaxPages"></span><input type="number" data-key="maxPages" min="1" max="200"></label>
+    <label><span data-i18n="prefetchAhead"></span><input type="number" data-key="prefetchAhead" min="0" max="5"></label>
+    <p class="hint" data-i18n="optPrefetchHint"></p>
+    <label class="check"><input type="checkbox" data-key="jsRenderFallback"><span data-i18n="optJsRender"></span></label>
+    <label><span data-i18n="optRenderWait"></span><input type="number" data-key="renderWaitMs" min="0" max="15000" step="250"></label>
+    <label class="check"><input type="checkbox" data-key="keepMedia"><span data-i18n="optKeepMedia"></span></label>
+  </section>
+
+  <section>
+    <h2 data-i18n="secDisplay"></h2>
+    <label><span data-i18n="theme"></span>
+      <select data-key="theme">
+        <option value="auto" data-i18n="themeAuto"></option><option value="light" data-i18n="themeLight"></option>
+        <option value="sepia" data-i18n="themeSepia"></option><option value="dark" data-i18n="themeDark"></option>
+      </select></label>
+    <label><span data-i18n="fontFamily"></span>
+      <select data-key="fontFamily"><option value="serif" data-i18n="fontSerif"></option><option value="sans" data-i18n="fontSans"></option><option value="system-serif" data-i18n="fontSystemSerif"></option><option value="system-sans" data-i18n="fontSystemSans"></option></select></label>
+    <p class="hint" data-i18n="fontHint"></p>
+    <label><span data-i18n="optFontSize"></span><input type="number" data-key="fontSize" min="13" max="32"></label>
+    <label><span data-i18n="lineWidth"></span><input type="number" data-key="lineWidth" min="480" max="1200" step="20"></label>
+    <label><span data-i18n="optLineHeight"></span><input type="number" data-key="lineHeight" min="1.2" max="2.4" step="0.05"></label>
+  </section>
+
+  <section>
+    <h2 data-i18n="secTranslate"></h2>
+    <label><span data-i18n="optServer"></span>
+      <select data-key="trProvider" id="provider"><option value="ollama">Ollama</option><option value="openai" data-i18n="optProviderOpenAI"></option></select></label>
+    <label><span data-i18n="optEndpoint"></span><input type="url" data-key="trEndpoint" id="endpoint" spellcheck="false"></label>
+    <p class="hint" id="endpointHint"></p>
+    <label><span data-i18n="optModel"></span>
+      <span class="combo"><input type="text" data-key="trModel" list="models" spellcheck="false"><button type="button" id="loadModels" data-i18n="optLoadModels"></button></span></label>
+    <datalist id="models"></datalist>
+    <label><span data-i18n="optApiKey"></span><input type="password" data-key="trApiKey" autocomplete="off"></label>
+    <label><span data-i18n="translateTo"></span><input type="text" data-key="trTargetLang" list="langs"></label>
+    <datalist id="langs">
+      <option value="Vietnamese"><option value="English"><option value="Japanese"><option value="Simplified Chinese"><option value="Traditional Chinese"><option value="Korean"><option value="French"><option value="German"><option value="Spanish"><option value="Thai">
+    </datalist>
+    <label><span data-i18n="trDisplay"></span>
+      <select data-key="trDisplay"><option value="bilingual" data-i18n="trBilingual"></option><option value="replace" data-i18n="trReplace"></option></select></label>
+    <label class="check"><input type="checkbox" data-key="trAuto"><span data-i18n="optTrAuto"></span></label>
+    <p class="hint" data-i18n="optSelHint"></p>
+    <label><span data-i18n="optProfile"></span>
+      <select data-key="trProfile"><option value="auto" data-i18n="optProfileAuto"></option><option value="generic" data-i18n="optProfileGeneric"></option><option value="hymt">Hy-MT (Tencent)</option><option value="tgemma">TranslateGemma (Google)</option></select></label>
+    <p class="hint" data-i18n="optProfileHint"></p>
+    <label><span data-i18n="optUnit"></span>
+      <select data-key="trUnit"><option value="page" data-i18n="optUnitPage"></option><option value="paragraph" data-i18n="optUnitPara"></option></select></label>
+    <label><span data-i18n="optChunkChars"></span><input type="number" data-key="trChunkChars" min="800" max="30000" step="500"></label>
+    <p class="hint" data-i18n="optChunkHint"></p>
+    <label class="check"><input type="checkbox" data-key="trUseSummary"><span data-i18n="optUseSummary"></span></label>
+    <label><span data-i18n="optSummaryModel"></span><input type="text" data-key="trSummaryModel" list="models" spellcheck="false"></label>
+    <p class="hint" data-i18n="optSummaryHint"></p>
+    <label><span data-i18n="optNumCtx"></span><input type="number" data-key="trNumCtx" min="2048" max="262144" step="1024"></label>
+    <label><span data-i18n="optConcurrency"></span><input type="number" data-key="trConcurrency" min="1" max="8"></label>
+    <label><span data-i18n="optTemperature"></span><input type="number" data-key="trTemperature" min="0" max="1.5" step="0.1"></label>
+    <label class="check"><input type="checkbox" data-key="trNoThink"><span data-i18n="optNoThink"></span></label>
+    <div class="test">
+      <button type="button" id="testBtn" data-i18n="optTest"></button>
+      <output id="testOut"></output>
+    </div>
+  </section>
+
+  <section>
+    <h2 data-i18n="secTts"></h2>
+    <label><span data-i18n="ttsSourceLabel"></span>
+      <select data-key="ttsSource"><option value="auto" data-i18n="ttsSrcAuto"></option><option value="original" data-i18n="ttsSrcOriginal"></option><option value="translation" data-i18n="ttsSrcTranslation"></option></select></label>
+    <p class="hint" data-i18n="optTtsSourceHint"></p>
+    <label><span data-i18n="ttsSpeed"></span><input type="number" data-key="ttsRate" min="0.5" max="3" step="0.05"></label>
+    <label class="check"><input type="checkbox" data-key="ttsAutoScroll"><span data-i18n="optTtsAutoScroll"></span></label>
+    <h3 data-i18n="optTtsVoices"></h3>
+    <div id="voices" class="voices"></div>
+    <p class="hint" data-i18n="optTtsVoicesHint"></p>
+  </section>
+
+  <section>
+    <h2 data-i18n="secRules"></h2>
+    <p class="hint" data-i18n="optRulesHint"></p>
+    <div id="rules"></div>
+    <button type="button" id="addRule" data-i18n="optAddRule"></button>
+  </section>
+</main>
+<script src="lib/settings.js"></script>
+<script src="lib/i18n.js"></script>
+<script src="options.js"></script>
+</body>
+</html>

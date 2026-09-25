@@ -1,0 +1,563 @@
+{
+  "extName": {
+    "message": "Reader Flow"
+  },
+  "extDescription": {
+    "message": "読み進めると次のページを自動でつなげ、画像・動画・音声を残し、ローカルLLMで翻訳するリーダーモード。"
+  },
+  "actionTitle": {
+    "message": "Reader Flow (Alt+R)"
+  },
+  "cmdToggle": {
+    "message": "リーダーモードの切り替え"
+  },
+  "ctxOpen": {
+    "message": "Reader Flowで開く"
+  },
+  "themeAuto": {
+    "message": "システムに合わせる"
+  },
+  "themeLight": {
+    "message": "ライト"
+  },
+  "themeSepia": {
+    "message": "セピア"
+  },
+  "themeDark": {
+    "message": "ダーク"
+  },
+  "trBilingual": {
+    "message": "対訳"
+  },
+  "trReplace": {
+    "message": "訳文のみ"
+  },
+  "settings": {
+    "message": "設定"
+  },
+  "fontSmaller": {
+    "message": "文字を小さく"
+  },
+  "fontLarger": {
+    "message": "文字を大きく"
+  },
+  "closeTitle": {
+    "message": "閉じる (Esc)"
+  },
+  "closeLabel": {
+    "message": "リーダーモードを閉じる"
+  },
+  "panelLabel": {
+    "message": "表示設定"
+  },
+  "maxPages": {
+    "message": "最大ページ数"
+  },
+  "prefetchAhead": {
+    "message": "先読みするページ数"
+  },
+  "prefetchHint": {
+    "message": "0にすると、終わり近くまでスクロールしたときだけ次のページを読み込みます。"
+  },
+  "theme": {
+    "message": "テーマ"
+  },
+  "fontFamily": {
+    "message": "書体"
+  },
+  "fontSerif": {
+    "message": "Literata（セリフ体）"
+  },
+  "fontSans": {
+    "message": "Inter（サンセリフ体）"
+  },
+  "fontSystemSerif": {
+    "message": "システムのセリフ体"
+  },
+  "fontSystemSans": {
+    "message": "システムのサンセリフ体"
+  },
+  "fontHint": {
+    "message": "LiterataとInterは拡張機能に同梱されており、ベトナム語の声調記号も正しく表示されます。"
+  },
+  "trStop": {
+    "message": "翻訳を停止"
+  },
+  "trPaused": {
+    "message": "翻訳を停止しました"
+  },
+  "lineWidth": {
+    "message": "行幅 (px)"
+  },
+  "translateTo": {
+    "message": "翻訳先"
+  },
+  "modelNote": {
+    "message": "モデル: {1}（{2}）"
+  },
+  "uiLanguage": {
+    "message": "表示言語"
+  },
+  "uiLangAuto": {
+    "message": "ブラウザに合わせる"
+  },
+  "pickNext": {
+    "message": "「次へ」ボタンを選択"
+  },
+  "clearRule": {
+    "message": "ルールを削除"
+  },
+  "moreOptions": {
+    "message": "その他の設定"
+  },
+  "ruleActive": {
+    "message": "{1} 用のカスタムルールを使用中です。"
+  },
+  "ruleActiveText": {
+    "message": "{1} 用のカスタムルールを使用中です（ボタン「{2}」）。"
+  },
+  "ruleNone": {
+    "message": "次のページが正しく検出されない場合は、元のページで「次へ」ボタンを選択してください。"
+  },
+  "noContent": {
+    "message": "このページで本文が見つかりませんでした。"
+  },
+  "openOriginal": {
+    "message": "元のページを開く"
+  },
+  "pageN": {
+    "message": "{1}ページ"
+  },
+  "loadingPage": {
+    "message": "{1}ページを読み込み中…"
+  },
+  "renderingPage": {
+    "message": "{1}ページはJavaScriptが必要なため、バックグラウンドのタブで開いています…"
+  },
+  "extractFailed": {
+    "message": "{1}ページの本文を抽出できませんでした"
+  },
+  "fetchFailed": {
+    "message": "{1} を読み込めませんでした"
+  },
+  "counter": {
+    "message": "{1} / {2}ページ 読み込み済み"
+  },
+  "trError": {
+    "message": "翻訳エラー: {1}"
+  },
+  "trErrorCount": {
+    "message": "{1}段落の翻訳に失敗しました"
+  },
+  "trPending": {
+    "message": "{1}段落を翻訳中…"
+  },
+  "retry": {
+    "message": "再試行"
+  },
+  "openNextTab": {
+    "message": "次のページを新しいタブで開く"
+  },
+  "limitReached": {
+    "message": "設定した上限の{1}ページまで表示しました。"
+  },
+  "loadMore5": {
+    "message": "さらに5ページ読み込む"
+  },
+  "duplicate": {
+    "message": "次のページの内容が重複しているため、ここで停止しました。"
+  },
+  "endJoined": {
+    "message": "最後まで読み込みました（{1}ページ）。"
+  },
+  "noNext": {
+    "message": "次のページが見つかりませんでした。"
+  },
+  "pickNextOnPage": {
+    "message": "元のページで「次へ」ボタンを選択"
+  },
+  "detectedVia": {
+    "message": "検出方法: {1}"
+  },
+  "loadPageN": {
+    "message": "{1}ページを読み込む"
+  },
+  "pickerTip": {
+    "message": "「次へ」のボタンまたはリンクをクリックしてください。Escでキャンセルします。"
+  },
+  "pickerNotLink": {
+    "message": "リンクではありません。「次へ」ボタンをクリックしてください。"
+  },
+  "trContext": {
+    "message": "このページの翻訳に使った文脈"
+  },
+  "trMissing": {
+    "message": "モデルがこの段落を省略しました"
+  },
+  "trSummarizing": {
+    "message": "前のページを要約中…"
+  },
+  "optUnit": {
+    "message": "翻訳の単位"
+  },
+  "optUnitPage": {
+    "message": "ページ全体をまとめて（意味を保つ）"
+  },
+  "optUnitPara": {
+    "message": "段落ごと（開始が速い）"
+  },
+  "optChunkChars": {
+    "message": "1回に送る最大文字数"
+  },
+  "optChunkHint": {
+    "message": "長いページは連続した部分に分割され、各部分には前の部分の末尾が渡されます。サーバーのコンテキストには本文・要約・訳文が収まる必要があります。4000文字なら8K〜16Kトークン（llama-server: -c。-np N を使うと各スロットは c/N）。"
+  },
+  "optUseSummary": {
+    "message": "前のページの要約を文脈に加える"
+  },
+  "optSummaryModel": {
+    "message": "要約モデル"
+  },
+  "optSummaryHint": {
+    "message": "空欄なら翻訳モデルを使います。翻訳専用モデル（Hy-MT、TranslateGemma）は要約が苦手なので、QwenやGemmaなどのチャットモデルを選んでください。llama-serverではルーターモード（複数モデル）が必要です。"
+  },
+  "optProfile": {
+    "message": "モデルプロファイル"
+  },
+  "optProfileAuto": {
+    "message": "自動（モデル名から判定）"
+  },
+  "optProfileGeneric": {
+    "message": "一般的なチャットモデル"
+  },
+  "optProfileHint": {
+    "message": "Hy-MTとTranslateGemmaにはシステムプロンプトなしの単一メッセージを送り、Hy-MTには推奨のサンプリング設定を使います。"
+  },
+  "optNumCtx": {
+    "message": "Ollamaのコンテキスト長 (num_ctx)"
+  },
+  "zapStart": {
+    "message": "不要な部分を隠す"
+  },
+  "zapTip": {
+    "message": "記事以外の部分をクリックすると非表示にし、このサイトの以降のページでも隠します。↑キーで外側のブロックを選択。Escで終了。"
+  },
+  "zapDone": {
+    "message": "完了"
+  },
+  "ruleHidden": {
+    "message": "このサイトで{1}件を非表示にしています。"
+  },
+  "optRuleRemoveSel": {
+    "message": "削除するセレクター"
+  },
+  "ttsWaitingTr": {
+    "message": "訳文を待っています…"
+  },
+  "ttsWaitingPage": {
+    "message": "次のページを読み込み中…"
+  },
+  "ttsEnd": {
+    "message": "最後まで読み上げました。"
+  },
+  "ttsNoVoice": {
+    "message": "「{1}」の音声がありません"
+  },
+  "ttsListen": {
+    "message": "読み上げ"
+  },
+  "ttsPlay": {
+    "message": "再生"
+  },
+  "ttsPause": {
+    "message": "一時停止"
+  },
+  "ttsPrev": {
+    "message": "前の段落"
+  },
+  "ttsNext": {
+    "message": "次の段落"
+  },
+  "ttsClose": {
+    "message": "読み上げを終了"
+  },
+  "ttsSpeed": {
+    "message": "速度"
+  },
+  "ttsSourceLabel": {
+    "message": "読む内容"
+  },
+  "ttsSrcAuto": {
+    "message": "自動"
+  },
+  "ttsSrcOriginal": {
+    "message": "原文"
+  },
+  "ttsSrcTranslation": {
+    "message": "訳文"
+  },
+  "ttsError": {
+    "message": "読み上げエラー: {1}"
+  },
+  "ttsDblHint": {
+    "message": "段落をダブルクリックするとそこから読み上げます。"
+  },
+  "secTts": {
+    "message": "読み上げ"
+  },
+  "optTtsSourceHint": {
+    "message": "自動：翻訳がオンのときは訳文を（必要なら各段落の翻訳を待って）、それ以外は原文を読み上げます。"
+  },
+  "optTtsAutoScroll": {
+    "message": "読み上げ中の段落に合わせてスクロール"
+  },
+  "optTtsVoices": {
+    "message": "言語ごとの音声"
+  },
+  "optTtsVoicesHint": {
+    "message": "ブラウザとOSが提供する音声です。「自動」は自然な音声／オンライン音声を優先します。言語が見つからない場合は、OSの言語設定で音声パックを追加し、ブラウザを再起動してください。"
+  },
+  "ttsVoiceAuto": {
+    "message": "自動"
+  },
+  "optTtsTest": {
+    "message": "試聴"
+  },
+  "optTtsNoVoices": {
+    "message": "ブラウザに利用できる音声がありません。"
+  },
+  "trStart": {
+    "message": "翻訳"
+  },
+  "trDisplay": {
+    "message": "訳文の表示"
+  },
+  "trClear": {
+    "message": "訳文を消去"
+  },
+  "optTrAuto": {
+    "message": "リーダーモードを開いたら自動で翻訳する"
+  },
+  "optSelHint": {
+    "message": "どのページでも、テキストを選択して右クリックし「選択範囲を翻訳」を選べます。"
+  },
+  "ctxTranslateSel": {
+    "message": "選択範囲を翻訳"
+  },
+  "selTitle": {
+    "message": "翻訳"
+  },
+  "selCopy": {
+    "message": "コピー"
+  },
+  "selCopied": {
+    "message": "コピーしました"
+  },
+  "selClose": {
+    "message": "閉じる"
+  },
+  "trRetry": {
+    "message": "再翻訳"
+  },
+  "trFailed": {
+    "message": "翻訳できませんでした: {1}"
+  },
+  "trTranslating": {
+    "message": "翻訳中…"
+  },
+  "errPortLost": {
+    "message": "拡張機能との接続が切れました。再試行してください"
+  },
+  "errPortFail": {
+    "message": "拡張機能に接続できませんでした"
+  },
+  "mediaVideoOnly": {
+    "message": "この動画は元のページでのみ再生できます"
+  },
+  "mediaAudioOnly": {
+    "message": "この音声は元のページでのみ再生できます"
+  },
+  "whyPartNext": {
+    "message": "シリーズの第{1}部"
+  },
+  "whySeries": {
+    "message": "シリーズ目次の次の項目"
+  },
+  "whyRule": {
+    "message": "サイトのルール"
+  },
+  "whyRuleText": {
+    "message": "サイトのルール（文字）"
+  },
+  "whyLinkRel": {
+    "message": "<link rel=next>"
+  },
+  "whyRelNext": {
+    "message": "rel=next"
+  },
+  "whyText": {
+    "message": "文字「{1}」"
+  },
+  "whyArrow": {
+    "message": "矢印"
+  },
+  "whyPartial": {
+    "message": "「次」を含む"
+  },
+  "whyClass": {
+    "message": "next の class/id"
+  },
+  "whyAria": {
+    "message": "aria-label/title"
+  },
+  "whyPageNum": {
+    "message": "ページ番号 {1}"
+  },
+  "whyUrlInc": {
+    "message": "URLの数字が+1"
+  },
+  "whyPager": {
+    "message": "ページ送り内"
+  },
+  "whyPrevLike": {
+    "message": "「前へ／最後」に類似"
+  },
+  "errTabTimeout": {
+    "message": "ページの読み込みがタイムアウトしました"
+  },
+  "errTabRead": {
+    "message": "バックグラウンドタブの内容を読み取れませんでした"
+  },
+  "errOllama403": {
+    "message": "Ollamaがリクエストを拒否しました (403)。環境変数 OLLAMA_ORIGINS=chrome-extension://* を設定し、Ollamaを再起動してください。"
+  },
+  "errConnect": {
+    "message": "{1} に接続できません（LLMは起動していますか？）"
+  },
+  "errHttp": {
+    "message": "サーバーが HTTP {1} を返しました"
+  },
+  "errNotHtml": {
+    "message": "リンク先はHTMLページではありません（{1}）"
+  },
+  "optTitle": {
+    "message": "Reader Flow — 設定"
+  },
+  "optLeadHtml": {
+    "message": "拡張機能のアイコンをクリックするか、ページ上で <kbd>Alt</kbd>+<kbd>R</kbd> を押すとリーダーモードが開きます。変更はすぐに保存されます。"
+  },
+  "secGeneral": {
+    "message": "全般"
+  },
+  "secPaging": {
+    "message": "ページの連結"
+  },
+  "optMaxPages": {
+    "message": "表示する最大ページ数"
+  },
+  "optPrefetchHint": {
+    "message": "1の場合：1ページ目を読んでいる間に2ページ目を読み込み、2ページ目に進むと3ページ目を探して読み込みます。0の場合は終わり近くまでスクロールしたときだけ読み込みます。"
+  },
+  "optJsRender": {
+    "message": "取得したページがほぼ空の場合、JavaScriptを実行するためにバックグラウンドのタブで一時的に開く"
+  },
+  "optRenderWait": {
+    "message": "JavaScriptの待機時間 (ms)"
+  },
+  "optKeepMedia": {
+    "message": "動画・音声・埋め込み（YouTube、Vimeo、SoundCloudなど）を残す"
+  },
+  "secDisplay": {
+    "message": "表示"
+  },
+  "optFontSize": {
+    "message": "文字サイズ (px)"
+  },
+  "optLineHeight": {
+    "message": "行間"
+  },
+  "secTranslate": {
+    "message": "ローカルLLMで翻訳"
+  },
+  "optServer": {
+    "message": "サーバー"
+  },
+  "optProviderOpenAI": {
+    "message": "OpenAI互換（LM Studio、llama.cpp、vLLM、Janなど）"
+  },
+  "optEndpoint": {
+    "message": "アドレス"
+  },
+  "optEndpointOllamaHtml": {
+    "message": "既定は <code>http://localhost:11434</code>。403エラーが出る場合は <code>OLLAMA_ORIGINS=chrome-extension://*</code> を設定してOllamaを再起動してください。"
+  },
+  "optEndpointOpenAIHtml": {
+    "message": "<code>/v1</code> を含むベースアドレス。LM Studio: <code>http://localhost:1234/v1</code>、llama.cpp server: <code>http://localhost:8080/v1</code>。"
+  },
+  "optModel": {
+    "message": "モデル"
+  },
+  "optLoadModels": {
+    "message": "一覧を取得"
+  },
+  "optApiKey": {
+    "message": "APIキー（任意）"
+  },
+  "optConcurrency": {
+    "message": "同時に翻訳する段落数"
+  },
+  "optTemperature": {
+    "message": "Temperature"
+  },
+  "optNoThink": {
+    "message": "モデルの思考モードをオフにする（Ollama。Qwen3やDeepSeek-R1などで高速化）"
+  },
+  "optTest": {
+    "message": "テスト文を翻訳"
+  },
+  "optLoadingModels": {
+    "message": "モデル一覧を取得中…"
+  },
+  "optModelsFailed": {
+    "message": "一覧を取得できませんでした: {1}"
+  },
+  "optModelsFound": {
+    "message": "{1}個のモデル: {2}"
+  },
+  "optNoModels": {
+    "message": "サーバーは起動していますが、モデルがまだありません。"
+  },
+  "optSeconds": {
+    "message": "（{1}秒）"
+  },
+  "secRules": {
+    "message": "サイト別ルール"
+  },
+  "optRulesHint": {
+    "message": "リーダーモードで「次へボタンを選択」を使うと自動で作成されます。本文の抽出がうまくいかない場合は本文エリアのセレクターを追加できます。"
+  },
+  "optNoRules": {
+    "message": "ルールはまだありません。"
+  },
+  "optRuleDomain": {
+    "message": "ドメイン"
+  },
+  "optRuleNextSel": {
+    "message": "次へボタンのセレクター"
+  },
+  "optRuleNextText": {
+    "message": "ボタンの文字"
+  },
+  "optRuleContentSel": {
+    "message": "本文エリアのセレクター"
+  },
+  "optRuleTextPh": {
+    "message": "次へ"
+  },
+  "optDelete": {
+    "message": "削除"
+  },
+  "optAddRule": {
+    "message": "ルールを追加"
+  }
+}
