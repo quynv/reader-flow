@@ -1,0 +1,10 @@
+const { JSDOM } = require('jsdom'); const fs = require('fs');
+const html = fs.readFileSync(process.argv[2], 'utf8');
+const dom = new JSDOM(html, { url: 'https://www.asahi.com/articles/DA3S16553345.html' });
+global.window = dom.window; global.document = dom.window.document; global.DOMParser = dom.window.DOMParser; global.Node = dom.window.Node;
+global.rfT = (k) => k; global.CSS = { escape: (s) => s };
+eval(fs.readFileSync(require('path').join(__dirname, '..', '..', 'reader-flow', 'lib', 'Readability.js'), 'utf8') + '\nglobal.Readability = Readability;');
+eval(fs.readFileSync(require('path').join(__dirname, '..', '..', 'reader-flow', 'lib', 'extract.js'), 'utf8'));
+const res = RFExtract.extract(dom.window.document, 'https://www.asahi.com/articles/DA3S16553345.html', { keepMedia: true, minTextLength: 200, removeTexts: process.argv[3] ? [process.argv[3]] : [] });
+console.log('TITLE:', res.title, '| BYLINE:', res.byline, '| DATE:', res.date);
+console.log(res.html.replace(/></g, '>\n<'));

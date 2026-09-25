@@ -1,0 +1,4 @@
+<html><body style="margin:0;background:#000"><script>
+window.__token = Math.random().toString(36).slice(2);
+addEventListener('message', (e) => { if (!e.data || !e.data.playlist) return; const v = document.createElement('video'); v.controls = true; v.style.width = '100%'; v.src = e.data.playlist; document.body.append(v); });
+</script></body></html>

@@ -1,0 +1,21 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><title>Examples - MediaElement.js</title>
+<link rel="stylesheet" href="/libs/mediaelementplayer.min.css"><link rel="stylesheet" href="/libs/quality.min.css">
+<script src="/libs/mediaelement-and-player.min.js"></script><script src="/libs/quality.min.js"></script></head><body>
+<header><a href="/">MediaElement.js</a><nav><ul><li><a href="/examples.html">Examples</a></li><li><a href="https://github.com/x">Installation</a></li><li><a href="https://github.com/y">Usage</a></li></ul></nav></header>
+<main class="container"><h2>Examples</h2>
+<section><h3>Multiple Captions</h3><p>Video with multiple captions</p><div class="media-wrapper"><video id="player1" width="640" height="360" style="max-width:100%;" poster="/img/poster.png" preload="none" controls playsinline webkit-playsinline>
+  <source src="//127.0.0.1:8765/media/clip.mp4?raw=true" type="video/mp4">
+  <track srclang="en" kind="subtitles" src="/media/english.vtt" default>
+</video></div><h4>Code</h4><pre><code class="language-html">&lt;video id="player1" width="640" height="360" style="max-width:100%;" poster="/img/poster.png" preload="none" controls playsinline webkit-playsinline&gt;
+  &lt;source src="//127.0.0.1:8765/media/clip.mp4?raw=true" type="video/mp4"&gt;
+  &lt;track srclang="en" kind="subtitles" src="/media/english.vtt" default&gt;
+&lt;/video&gt;</code></pre></section>
+<section><h3>Quality Chooser Plugin</h3><p>Selection of multiple sources.</p><div class="media-wrapper"><video id="player2" width="640" height="360" style="max-width:100%;" preload="none" controls playsinline webkit-playsinline>
+  <source src="/media/clip.mp4" type="video/mp4" data-quality="HD" title="HD">
+  <source src="/media/clip_sd.mp4" type="video/mp4" data-quality="SD" title="SD">
+</video></div><h4>Code</h4><pre><code class="language-html">&lt;video id="player2" width="640" height="360" style="max-width:100%;" preload="none" controls playsinline webkit-playsinline&gt;
+  &lt;source src="/media/clip.mp4" type="video/mp4" data-quality="HD" title="HD"&gt;
+  &lt;source src="/media/clip_sd.mp4" type="video/mp4" data-quality="SD" title="SD"&gt;
+&lt;/video&gt;</code></pre></section>
+</main><footer><p>MediaElement.js was created by John Dyer.</p></footer>
+<script>new MediaElementPlayer('player1', {}); new MediaElementPlayer('player2', {features: ['playpause','current','progress','duration','quality','volume','fullscreen']});</script></body></html>

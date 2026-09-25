@@ -1,0 +1,584 @@
+{
+  "extName": {
+    "message": "Reader Flow"
+  },
+  "extDescription": {
+    "message": "Chế độ đọc tự nối các trang kế tiếp, giữ ảnh/video/âm thanh và dịch bằng LLM chạy trên máy."
+  },
+  "actionTitle": {
+    "message": "Reader Flow (Alt+R)"
+  },
+  "cmdToggle": {
+    "message": "Bật/tắt chế độ đọc"
+  },
+  "ctxOpen": {
+    "message": "Mở bằng Reader Flow"
+  },
+  "themeAuto": {
+    "message": "Theo hệ thống"
+  },
+  "themeLight": {
+    "message": "Sáng"
+  },
+  "themeSepia": {
+    "message": "Giấy cũ"
+  },
+  "themeDark": {
+    "message": "Tối"
+  },
+  "trBilingual": {
+    "message": "Song ngữ"
+  },
+  "trReplace": {
+    "message": "Chỉ bản dịch"
+  },
+  "settings": {
+    "message": "Cài đặt"
+  },
+  "fontSmaller": {
+    "message": "Chữ nhỏ hơn"
+  },
+  "fontLarger": {
+    "message": "Chữ lớn hơn"
+  },
+  "closeTitle": {
+    "message": "Đóng (Esc)"
+  },
+  "closeLabel": {
+    "message": "Đóng chế độ đọc"
+  },
+  "panelLabel": {
+    "message": "Cài đặt đọc"
+  },
+  "maxPages": {
+    "message": "Số trang tối đa"
+  },
+  "prefetchAhead": {
+    "message": "Tải trước bao nhiêu trang"
+  },
+  "prefetchHint": {
+    "message": "Đặt 0 để chỉ tải trang kế khi cuộn gần hết."
+  },
+  "theme": {
+    "message": "Giao diện"
+  },
+  "fontFamily": {
+    "message": "Kiểu chữ"
+  },
+  "fontSerif": {
+    "message": "Literata (có chân)"
+  },
+  "fontSans": {
+    "message": "Inter (không chân)"
+  },
+  "fontSystemSerif": {
+    "message": "Có chân của hệ thống"
+  },
+  "fontSystemSans": {
+    "message": "Không chân của hệ thống"
+  },
+  "fontHint": {
+    "message": "Literata và Inter được đóng gói sẵn, hiển thị đầy đủ dấu tiếng Việt."
+  },
+  "trStop": {
+    "message": "Dừng dịch"
+  },
+  "trPaused": {
+    "message": "Đã dừng dịch"
+  },
+  "lineWidth": {
+    "message": "Độ rộng cột (px)"
+  },
+  "translateTo": {
+    "message": "Dịch sang"
+  },
+  "modelNote": {
+    "message": "Mô hình: {1} ({2})"
+  },
+  "uiLanguage": {
+    "message": "Ngôn ngữ giao diện"
+  },
+  "uiLangAuto": {
+    "message": "Theo trình duyệt"
+  },
+  "pickNext": {
+    "message": "Chọn nút \"Trang sau\""
+  },
+  "clearRule": {
+    "message": "Xoá quy tắc"
+  },
+  "moreOptions": {
+    "message": "Tuỳ chọn khác"
+  },
+  "ruleActive": {
+    "message": "Đang dùng quy tắc riêng cho {1}."
+  },
+  "ruleActiveText": {
+    "message": "Đang dùng quy tắc riêng cho {1} (nút \"{2}\")."
+  },
+  "ruleNone": {
+    "message": "Nếu nhận sai trang kế tiếp, hãy chọn nút \"Trang sau\" trên trang gốc."
+  },
+  "noContent": {
+    "message": "Không tìm thấy nội dung chính trên trang này."
+  },
+  "openOriginal": {
+    "message": "Mở trang gốc"
+  },
+  "pageN": {
+    "message": "Trang {1}"
+  },
+  "loadingPage": {
+    "message": "Đang tải trang {1}…"
+  },
+  "renderingPage": {
+    "message": "Trang {1} cần chạy JavaScript, đang mở trong tab nền…"
+  },
+  "extractFailed": {
+    "message": "Không trích xuất được nội dung trang {1}"
+  },
+  "fetchFailed": {
+    "message": "Không tải được {1}"
+  },
+  "counter": {
+    "message": "Trang {1} / {2} đã tải"
+  },
+  "trError": {
+    "message": "Lỗi dịch: {1}"
+  },
+  "trErrorCount": {
+    "message": "Dịch lỗi {1} đoạn"
+  },
+  "trPending": {
+    "message": "Đang dịch {1} đoạn…"
+  },
+  "retry": {
+    "message": "Thử lại"
+  },
+  "openNextTab": {
+    "message": "Mở trang kế trong tab mới"
+  },
+  "limitReached": {
+    "message": "Đã hiển thị {1} trang, đúng giới hạn đã đặt."
+  },
+  "loadMore5": {
+    "message": "Tải thêm 5 trang"
+  },
+  "duplicate": {
+    "message": "Trang kế tiếp trùng nội dung với trang đã có nên dừng ở đây."
+  },
+  "endJoined": {
+    "message": "Hết. Đã nối {1} trang."
+  },
+  "noNext": {
+    "message": "Không tìm thấy trang kế tiếp."
+  },
+  "pickNextOnPage": {
+    "message": "Chọn nút \"Trang sau\" trên trang gốc"
+  },
+  "detectedVia": {
+    "message": "Nhận diện qua: {1}"
+  },
+  "loadPageN": {
+    "message": "Tải trang {1}"
+  },
+  "pickerTip": {
+    "message": "Bấm vào nút hoặc liên kết \"Trang sau\". Nhấn Esc để huỷ."
+  },
+  "pickerNotLink": {
+    "message": "Đây không phải liên kết. Hãy bấm vào nút \"Trang sau\"."
+  },
+  "trContext": {
+    "message": "Ngữ cảnh đã dùng khi dịch trang này"
+  },
+  "trMissing": {
+    "message": "Mô hình đã bỏ sót đoạn này"
+  },
+  "trSummarizing": {
+    "message": "Đang tóm tắt các trang trước…"
+  },
+  "optUnit": {
+    "message": "Đơn vị dịch"
+  },
+  "optUnitPage": {
+    "message": "Cả trang một lần (giữ trọn ý)"
+  },
+  "optUnitPara": {
+    "message": "Từng đoạn (bắt đầu nhanh hơn)"
+  },
+  "optChunkChars": {
+    "message": "Số ký tự tối đa mỗi lần gửi"
+  },
+  "optChunkHint": {
+    "message": "Trang dài hơn được cắt thành các phần liên tiếp, phần sau nhận đoạn cuối của phần trước. Ngữ cảnh của máy chủ phải đủ chứa văn bản, bản tóm tắt và bản dịch: với 4000 ký tự nên đặt 8K–16K token (llama-server: -c; khi dùng -np N, mỗi luồng chỉ còn c/N)."
+  },
+  "optUseSummary": {
+    "message": "Đưa tóm tắt các trang trước vào ngữ cảnh"
+  },
+  "optSummaryModel": {
+    "message": "Mô hình tóm tắt"
+  },
+  "optSummaryHint": {
+    "message": "Để trống sẽ dùng mô hình dịch. Mô hình chỉ để dịch (Hy-MT, TranslateGemma) tóm tắt kém, nên chọn mô hình chat như Qwen hay Gemma. Với llama-server cần chạy chế độ router (nhiều mô hình)."
+  },
+  "optProfile": {
+    "message": "Hồ sơ mô hình"
+  },
+  "optProfileAuto": {
+    "message": "Tự động (theo tên mô hình)"
+  },
+  "optProfileGeneric": {
+    "message": "Mô hình chat thông thường"
+  },
+  "optProfileHint": {
+    "message": "Hy-MT và TranslateGemma được gửi một tin nhắn duy nhất, không có system prompt; Hy-MT dùng thêm tham số sampling khuyến nghị."
+  },
+  "optNumCtx": {
+    "message": "Kích thước ngữ cảnh cho Ollama (num_ctx)"
+  },
+  "zapStart": {
+    "message": "Ẩn phần thừa"
+  },
+  "zapTip": {
+    "message": "Bấm vào phần không thuộc bài viết để ẩn nó, kể cả ở các trang sau của trang web này. Phím ↑ chọn khối bao ngoài. Esc để kết thúc."
+  },
+  "zapDone": {
+    "message": "Xong"
+  },
+  "ruleHidden": {
+    "message": "Đang ẩn {1} mục trên trang web này."
+  },
+  "optRuleRemoveSel": {
+    "message": "Selector cần xoá"
+  },
+  "ttsWaitingTr": {
+    "message": "Đang chờ bản dịch…"
+  },
+  "ttsWaitingPage": {
+    "message": "Đang tải trang tiếp theo…"
+  },
+  "ttsEnd": {
+    "message": "Đã đọc hết."
+  },
+  "ttsNoVoice": {
+    "message": "Không có giọng đọc cho \"{1}\""
+  },
+  "ttsListen": {
+    "message": "Nghe"
+  },
+  "ttsPlay": {
+    "message": "Đọc"
+  },
+  "ttsPause": {
+    "message": "Tạm dừng"
+  },
+  "ttsPrev": {
+    "message": "Đoạn trước"
+  },
+  "ttsNext": {
+    "message": "Đoạn sau"
+  },
+  "ttsClose": {
+    "message": "Dừng đọc"
+  },
+  "ttsSpeed": {
+    "message": "Tốc độ"
+  },
+  "ttsSourceLabel": {
+    "message": "Đọc"
+  },
+  "ttsSrcAuto": {
+    "message": "Tự động"
+  },
+  "ttsSrcOriginal": {
+    "message": "Bản gốc"
+  },
+  "ttsSrcTranslation": {
+    "message": "Bản dịch"
+  },
+  "ttsError": {
+    "message": "Lỗi giọng đọc: {1}"
+  },
+  "ttsDblHint": {
+    "message": "Nhấp đúp vào một đoạn để đọc từ đó."
+  },
+  "secTts": {
+    "message": "Đọc to"
+  },
+  "optTtsSourceHint": {
+    "message": "Tự động: đọc bản dịch khi đang bật dịch (chờ từng đoạn dịch xong nếu cần), còn lại đọc bản gốc."
+  },
+  "optTtsAutoScroll": {
+    "message": "Tự cuộn theo đoạn đang đọc"
+  },
+  "optTtsVoices": {
+    "message": "Giọng cho từng ngôn ngữ"
+  },
+  "optTtsVoicesHint": {
+    "message": "Đây là các giọng trình duyệt và hệ điều hành cung cấp. \"Tự động\" ưu tiên giọng tự nhiên/online. Nếu thiếu ngôn ngữ nào, hãy cài gói giọng nói của ngôn ngữ đó trong cài đặt ngôn ngữ của hệ điều hành rồi khởi động lại trình duyệt."
+  },
+  "ttsVoiceAuto": {
+    "message": "Tự động"
+  },
+  "optTtsTest": {
+    "message": "Nghe thử"
+  },
+  "optTtsNoVoices": {
+    "message": "Trình duyệt không có giọng đọc nào."
+  },
+  "trStart": {
+    "message": "Dịch"
+  },
+  "trDisplay": {
+    "message": "Hiển thị bản dịch"
+  },
+  "trClear": {
+    "message": "Xoá bản dịch"
+  },
+  "optTrAuto": {
+    "message": "Tự động dịch khi mở chế độ đọc"
+  },
+  "optSelHint": {
+    "message": "Trên mọi trang, bôi đen một đoạn, nhấp chuột phải và chọn \"Dịch đoạn đã chọn\"."
+  },
+  "ctxTranslateSel": {
+    "message": "Dịch đoạn đã chọn"
+  },
+  "selTitle": {
+    "message": "Bản dịch"
+  },
+  "selCopy": {
+    "message": "Sao chép"
+  },
+  "selCopied": {
+    "message": "Đã sao chép"
+  },
+  "selClose": {
+    "message": "Đóng"
+  },
+  "transcript": {
+    "message": "Bản chép lời"
+  },
+  "vidPip": {
+    "message": "Xem trong cửa sổ nổi"
+  },
+  "vidPipFail": {
+    "message": "Không mở được cửa sổ nổi"
+  },
+  "vidOpenOriginal": {
+    "message": "Mở trang gốc"
+  },
+  "vidPeek": {
+    "message": "Xem ngay trên trang"
+  },
+  "vidBack": {
+    "message": "← Quay lại bài đọc"
+  },
+  "vidFramePip": {
+    "message": "Cửa sổ nổi: bấm nút ⧉ ở góc trên bên phải video."
+  },
+  "trRetry": {
+    "message": "Dịch lại"
+  },
+  "trFailed": {
+    "message": "Không dịch được: {1}"
+  },
+  "trTranslating": {
+    "message": "Đang dịch…"
+  },
+  "errPortLost": {
+    "message": "Mất kết nối tới tiện ích, thử lại"
+  },
+  "errPortFail": {
+    "message": "Không kết nối được tới tiện ích"
+  },
+  "mediaVideoOnly": {
+    "message": "Video này chỉ phát được trên trang gốc"
+  },
+  "mediaAudioOnly": {
+    "message": "Âm thanh này chỉ phát được trên trang gốc"
+  },
+  "whyPartNext": {
+    "message": "phần {1} của loạt bài"
+  },
+  "whySeries": {
+    "message": "mục kế tiếp trong mục lục loạt bài"
+  },
+  "whyRule": {
+    "message": "quy tắc tên miền"
+  },
+  "whyRuleText": {
+    "message": "quy tắc tên miền (chữ)"
+  },
+  "whyLinkRel": {
+    "message": "<link rel=next>"
+  },
+  "whyRelNext": {
+    "message": "rel=next"
+  },
+  "whyText": {
+    "message": "chữ \"{1}\""
+  },
+  "whyArrow": {
+    "message": "mũi tên"
+  },
+  "whyPartial": {
+    "message": "có chữ \"next\""
+  },
+  "whyClass": {
+    "message": "class/id \"next\""
+  },
+  "whyAria": {
+    "message": "aria-label/title"
+  },
+  "whyPageNum": {
+    "message": "số trang {1}"
+  },
+  "whyUrlInc": {
+    "message": "URL tăng số"
+  },
+  "whyPager": {
+    "message": "trong khối phân trang"
+  },
+  "whyPrevLike": {
+    "message": "giống \"trước/cuối\""
+  },
+  "errTabTimeout": {
+    "message": "Quá thời gian chờ trang tải"
+  },
+  "errTabRead": {
+    "message": "Không đọc được nội dung tab nền"
+  },
+  "errOllama403": {
+    "message": "Ollama từ chối (403). Đặt biến môi trường OLLAMA_ORIGINS=chrome-extension://* rồi khởi động lại Ollama."
+  },
+  "errConnect": {
+    "message": "Không kết nối được {1} (LLM đã chạy chưa?)"
+  },
+  "errHttp": {
+    "message": "Máy chủ trả về HTTP {1}"
+  },
+  "errNotHtml": {
+    "message": "Liên kết không phải trang HTML ({1})"
+  },
+  "optTitle": {
+    "message": "Reader Flow — Tuỳ chọn"
+  },
+  "optLeadHtml": {
+    "message": "Bấm biểu tượng tiện ích hoặc nhấn <kbd>Alt</kbd>+<kbd>R</kbd> trên một trang để mở chế độ đọc. Mọi thay đổi được lưu ngay."
+  },
+  "secGeneral": {
+    "message": "Chung"
+  },
+  "secPaging": {
+    "message": "Nối trang"
+  },
+  "optMaxPages": {
+    "message": "Số trang tối đa hiển thị"
+  },
+  "optPrefetchHint": {
+    "message": "Với giá trị 1: đang đọc trang 1 thì tải trang 2, đọc tới trang 2 thì tìm và tải trang 3. Giá trị 0 chỉ tải khi bạn cuộn gần hết."
+  },
+  "optJsRender": {
+    "message": "Trang tải về gần như trống thì mở tạm trong tab nền để JavaScript chạy"
+  },
+  "optRenderWait": {
+    "message": "Thời gian chờ JavaScript (ms)"
+  },
+  "optKeepMedia": {
+    "message": "Giữ video, âm thanh và nội dung nhúng (YouTube, Vimeo, SoundCloud…)"
+  },
+  "secDisplay": {
+    "message": "Hiển thị"
+  },
+  "optFontSize": {
+    "message": "Cỡ chữ (px)"
+  },
+  "optLineHeight": {
+    "message": "Giãn dòng"
+  },
+  "secTranslate": {
+    "message": "Dịch bằng LLM chạy local"
+  },
+  "optServer": {
+    "message": "Máy chủ"
+  },
+  "optProviderOpenAI": {
+    "message": "Tương thích OpenAI (LM Studio, llama.cpp, vLLM, Jan…)"
+  },
+  "optEndpoint": {
+    "message": "Địa chỉ"
+  },
+  "optEndpointOllamaHtml": {
+    "message": "Mặc định <code>http://localhost:11434</code>. Nếu gặp lỗi 403, đặt biến môi trường <code>OLLAMA_ORIGINS=chrome-extension://*</code> rồi khởi động lại Ollama."
+  },
+  "optEndpointOpenAIHtml": {
+    "message": "Địa chỉ gốc kèm <code>/v1</code>. LM Studio: <code>http://localhost:1234/v1</code>, llama.cpp server: <code>http://localhost:8080/v1</code>."
+  },
+  "optModel": {
+    "message": "Mô hình"
+  },
+  "optLoadModels": {
+    "message": "Lấy danh sách"
+  },
+  "optApiKey": {
+    "message": "API key (nếu có)"
+  },
+  "optConcurrency": {
+    "message": "Số đoạn dịch song song"
+  },
+  "optTemperature": {
+    "message": "Temperature"
+  },
+  "optNoThink": {
+    "message": "Tắt chế độ suy nghĩ của mô hình (Ollama, dịch nhanh hơn với Qwen3, DeepSeek-R1…)"
+  },
+  "optTest": {
+    "message": "Dịch thử một câu"
+  },
+  "optLoadingModels": {
+    "message": "Đang lấy danh sách mô hình…"
+  },
+  "optModelsFailed": {
+    "message": "Không lấy được danh sách: {1}"
+  },
+  "optModelsFound": {
+    "message": "Có {1} mô hình: {2}"
+  },
+  "optNoModels": {
+    "message": "Máy chủ chạy nhưng chưa có mô hình nào."
+  },
+  "optSeconds": {
+    "message": "({1} giây)"
+  },
+  "secRules": {
+    "message": "Quy tắc theo trang web"
+  },
+  "optRulesHint": {
+    "message": "Tạo tự động khi bạn dùng \"Chọn nút Trang sau\" trong chế độ đọc. Có thể thêm selector vùng nội dung nếu trang bị trích sai."
+  },
+  "optNoRules": {
+    "message": "Chưa có quy tắc nào."
+  },
+  "optRuleDomain": {
+    "message": "Tên miền"
+  },
+  "optRuleNextSel": {
+    "message": "Selector nút trang sau"
+  },
+  "optRuleNextText": {
+    "message": "Chữ trên nút"
+  },
+  "optRuleContentSel": {
+    "message": "Selector vùng nội dung"
+  },
+  "optRuleTextPh": {
+    "message": "Trang sau"
+  },
+  "optDelete": {
+    "message": "Xoá"
+  },
+  "optAddRule": {
+    "message": "Thêm quy tắc"
+  }
+}
