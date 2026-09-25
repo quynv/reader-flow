@@ -38,7 +38,9 @@ reader-flow/            ← the unpacked extension (load this folder in chrome:/
   lib/Readability.js    Mozilla Readability 0.6.0 (unmodified)
   lib/hls.light.min.js  hls.js 1.7.3, injected on demand only
   _locales/{en,vi,ja}/messages.json   GENERATED — do not edit by hand (see §7)
-  fonts/, icons/, README.md (English, user-facing)
+  fonts/, icons/
+
+README.md              English, user-facing documentation at the repository root
 
 reader-flow-dev/        ← test harness, kept OUTSIDE the extension folder (Chrome refuses
                           to load extensions containing "_"-prefixed names such as node_modules/)
