@@ -13,6 +13,7 @@ After updating to a new version, click **Reload** on the extension card. The rig
 ## Basic use
 
 - Open reader mode by clicking the toolbar icon, pressing `Alt+R`, or right-clicking the page and choosing **Open in Reader Flow**. Press `Esc` or click **×** to choose how to leave. **Leave temporarily** keeps the parsed article, completed translations, and reading position in this tab; use the toolbar icon or `Alt+R` to resume. Translation in progress pauses and resumes when you reopen. **Leave permanently** discards the reading session. Reloading or navigating away also loses a temporary session.
+- In **Settings** or **Options → Display**, enable **Fit article images to column width** to make article images fill the reading column (700 px by default, or your chosen column width) while keeping their aspect ratio. This is off by default; small inline icons retain their natural size.
 - While you read page 1, page 2 loads in the background. When you reach page 2, page 3 is found and loaded, and so on up to **Maximum pages**. **Pages to preload** controls how far ahead it loads; set it to 0 to load only when you scroll near the end.
 - Pages that need JavaScript to show their content are opened briefly in an inactive background tab, read, and closed again.
 

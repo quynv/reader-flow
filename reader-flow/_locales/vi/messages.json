@@ -104,6 +104,9 @@
   "lineWidth": {
     "message": "Độ rộng cột (px)"
   },
+  "imageFullWidth": {
+    "message": "Ảnh rộng hết cột đọc"
+  },
   "translateTo": {
     "message": "Dịch sang"
   },

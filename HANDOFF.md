@@ -79,7 +79,7 @@ Settings keys (`RF_DEFAULTS`):
 |---|---|
 | General | `uiLang` |
 | Page stitching | `maxPages`, `prefetchAhead`, `jsRenderFallback`, `renderWaitMs`, `minTextLength` |
-| Display | `theme`, `fontFamily`, `fontSize`, `lineWidth`, `lineHeight`, `keepMedia` |
+| Display | `theme`, `fontFamily`, `fontSize`, `lineWidth`, `lineHeight`, `imageFullWidth`, `keepMedia` |
 | Translation | `trProvider`, `trEndpoint`, `trModel`, `trApiKey`, `trTargetLang`, `trDisplay`, `trAuto`, `trConcurrency`, `trTemperature`, `trNoThink`, `trUnit`, `trChunkChars`, `trUseSummary`, `trSummaryModel`, `trProfile`, `trNumCtx` |
 | Read aloud | `ttsSource`, `ttsRate`, `ttsAutoScroll`, `ttsVoices` |
 | Per-site rules | `siteRules` |

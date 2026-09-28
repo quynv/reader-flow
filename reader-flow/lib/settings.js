@@ -15,6 +15,7 @@ var RF_DEFAULTS = {
   fontSize: 19,
   lineWidth: 700,
   lineHeight: 1.7,
+  imageFullWidth: false,
   keepMedia: true,
 
   // Dịch bằng LLM chạy local

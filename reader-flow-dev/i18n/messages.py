@@ -40,6 +40,7 @@ M = {
 "trStop": ("Stop translating","Dừng dịch","翻訳を停止"),
 "trPaused": ("Translation stopped","Đã dừng dịch","翻訳を停止しました"),
 "lineWidth": ("Column width (px)","Độ rộng cột (px)","行幅 (px)"),
+"imageFullWidth": ("Fit article images to column width","Ảnh rộng hết cột đọc","記事内の画像を本文の幅に合わせる"),
 "translateTo": ("Translate to","Dịch sang","翻訳先"),
 "modelNote": ("Model: {1} ({2})","Mô hình: {1} ({2})","モデル: {1}（{2}）"),
 "uiLanguage": ("Interface language","Ngôn ngữ giao diện","表示言語"),

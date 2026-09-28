@@ -297,6 +297,9 @@
         sel('trDisplay', DISPLAY_LABEL(), rfT('trDisplay')),
         sel('fontFamily', { serif: rfT('fontSerif'), sans: rfT('fontSans'), 'system-serif': rfT('fontSystemSerif'), 'system-sans': rfT('fontSystemSans') }, rfT('fontFamily')),
         num('lineWidth', 480, 1200, rfT('lineWidth')),
+        h('label', {}, rfT('imageFullWidth'),
+          ctrls.imageFullWidth = h('input', { type: 'checkbox', 'data-key': 'imageFullWidth', checked: !!s.imageFullWidth,
+            onchange: (e) => this.save({ imageFullWidth: e.target.checked }) })),
         sel('uiLang', Object.assign({ auto: rfT('uiLangAuto') }, RF_LOCALE_NAMES), rfT('uiLanguage')),
         h('hr'),
         h('label', {}, rfT('translateTo'), lang), langs,
@@ -336,13 +339,16 @@
       if (!E) return;
       const font = ['serif', 'sans', 'system-serif', 'system-sans'].includes(s.fontFamily) ? s.fontFamily : 'serif';
       E.root.className = 'rf-root theme-' + (THEMES.includes(s.theme) ? s.theme : 'auto') + ' font-' + font +
-        (this.playerOpen ? ' rf-player-open' : '') + (this.zapping ? ' rf-zapping' : '');
+        (this.playerOpen ? ' rf-player-open' : '') + (this.zapping ? ' rf-zapping' : '') +
+        (s.imageFullWidth ? ' rf-images-full' : '');
       if (font === 'serif' || font === 'sans') RFFonts.ensure(font);
       E.root.dataset.tr = s.trDisplay === 'replace' ? 'replace' : 'bilingual';
       E.root.style.setProperty('--rf-size', s.fontSize + 'px');
       E.root.style.setProperty('--rf-width', s.lineWidth + 'px');
       E.root.style.setProperty('--rf-lh', s.lineHeight);
-      for (const [k, el] of Object.entries(this.panelCtrls || {})) if (el !== (E.root.getRootNode().activeElement)) el.value = s[k];
+      for (const [k, el] of Object.entries(this.panelCtrls || {})) if (el !== (E.root.getRootNode().activeElement)) {
+        if (el.type === 'checkbox') el.checked = !!s[k]; else el.value = s[k];
+      }
       if (E.modelNote) E.modelNote.textContent = rfT('modelNote', s.trModel, s.trProvider === 'ollama' ? 'Ollama' : 'OpenAI API');
       E.root.style.setProperty('--rf-l-translating', JSON.stringify(rfT('trTranslating')));
       E.root.lang = rfI18n.lang;
@@ -464,6 +470,7 @@
       }
       const art = h('div', { class: 'rf-article' });
       art.append(sanitize(res.html));
+      this.markBlockImages(art);
       this.setupHls(art);
       // Readability đã đưa tiêu đề lên phần đầu; bỏ h1 trùng lặp ở đầu bài
       const firstH = art.querySelector('h1, h2');
@@ -489,6 +496,13 @@
       if (idx === 0 && this.pendingAutoStart) { this.pendingAutoStart = false; this.translator.start(); }
       this.updateCounter();
       this.idleStatus();
+    }
+
+    /* Phân biệt ảnh đứng riêng trong đoạn với biểu tượng nằm cạnh chữ. */
+    markBlockImages(root) {
+      for (const p of root.querySelectorAll('p')) {
+        if (p.querySelector('img') && !p.textContent.trim()) p.classList.add('rf-image-block');
+      }
     }
 
     currentIndex() {

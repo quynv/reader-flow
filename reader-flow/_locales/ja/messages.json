@@ -104,6 +104,9 @@
   "lineWidth": {
     "message": "行幅 (px)"
   },
+  "imageFullWidth": {
+    "message": "記事内の画像を本文の幅に合わせる"
+  },
   "translateTo": {
     "message": "翻訳先"
   },

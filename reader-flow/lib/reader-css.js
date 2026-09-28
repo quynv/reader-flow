@@ -172,6 +172,10 @@ button:focus-visible, select:focus-visible, input:focus-visible, a:focus-visible
 .rf-article a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
 .rf-article img, .rf-article video, .rf-article picture, .rf-article svg { max-width: 100%; height: auto; display: block; margin: 0 auto; border-radius: 3px; }
 .rf-article p img { display: inline-block; }
+/* Ảnh nội dung theo bề rộng cột; biểu tượng nằm cùng dòng chữ giữ kích thước gốc. */
+.rf-root.rf-images-full .rf-article img { width: 100%; height: auto; }
+.rf-root.rf-images-full .rf-article p img { width: auto; }
+.rf-root.rf-images-full .rf-article p.rf-image-block img { width: 100%; }
 .rf-article figure { margin-left: 0; margin-right: 0; }
 .rf-article figcaption { font-size: .8em; color: var(--muted); text-align: center; margin-top: .5em; }
 .rf-article audio { width: 100%; display: block; }

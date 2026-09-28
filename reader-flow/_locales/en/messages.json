@@ -104,6 +104,9 @@
   "lineWidth": {
     "message": "Column width (px)"
   },
+  "imageFullWidth": {
+    "message": "Fit article images to column width"
+  },
   "translateTo": {
     "message": "Translate to"
   },
