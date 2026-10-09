@@ -32,6 +32,7 @@ reader-flow/            ← the unpacked extension (load this folder in chrome:/
   lib/nextpage.js       RFNext.find(doc, url, {visited, rule}) — next-page scoring
   lib/extract.js        RFExtract.extract(doc, url, opts) — Readability + media + cleanup
   lib/translate.js      RFTranslator.Translator (page-level) + quickTranslate + readableBlocks
+  lib/export-markdown.js RFMarkdown.render(pages, mode, labels) + filename(title); serializes loaded reader DOM
   lib/tts.js            RFSpeaker.Speaker (Web Speech API only)
   lib/fonts.js          RFFonts.ensure('serif'|'sans'): Literata/Inter via FontFace from binary (CSP-safe)
   lib/reader-css.js     globalThis.RF_CSS (reader) and RF_SEL_CSS (selection popup), used via adoptedStyleSheets
@@ -58,7 +59,7 @@ reader-flow-dev/        ← test harness, kept OUTSIDE the extension folder (Chr
    - Every `lib/*.js` loaded into pages uses `var` or assigns to `globalThis.X = (() => {…})()`.
    - `content.js` is wrapped in an IIFE.
    - Never use top-level `const`, `let` or `class` in injected files: a second injection would throw.
-2. **Injection order** is fixed in `background.js` `CONTENT_FILES`: Readability, settings, i18n, fetch-util, nextpage, extract, translate, tts, fonts, reader-css, content. `hls.light.min.js` is **not** in this list; it is injected on demand (`rf-load-hls`).
+2. **Injection order** is fixed in `background.js` `CONTENT_FILES`: Readability, settings, i18n, fetch-util, nextpage, extract, translate, export-markdown, tts, fonts, reader-css, content. `hls.light.min.js` is **not** in this list; it is injected on demand (`rf-load-hls`).
 3. **All user-facing strings** go through `rfT('key')`. To add a string:
    - add the key to `reader-flow-dev/i18n/messages.py` in all three languages;
    - run `python3 reader-flow-dev/i18n/build.py`.
@@ -135,7 +136,7 @@ Settings keys (`RF_DEFAULTS`):
   5. then `setupLiveVideos(art)`. This must run after the section is in the DOM, because `moveBefore()` needs both sides connected.
 
 **UI pieces**
-- Toolbar: **Listen**, **Translate / Stop translating**, **Settings**, ✕.
+- Toolbar: **Listen**, **Translate / Stop translating**, **↓ .md** (exports only loaded pages, using the current translation display and URL-linked media), **Settings**, ✕.
 - Settings panel:
   - pick the "Next" button (a picker running on the original page);
   - **Hide clutter** (zap mode; the hidden text is saved to `siteRules[host].removeTexts`);
@@ -226,7 +227,7 @@ The function returns `{title, byline, siteName, html, textLength, mediaCount, ha
 
 ```bash
 cd reader-flow-dev && npm install          # jsdom + player libraries used by the fixtures
-npm run unit                               # jsdom: next-page (12), series (4), dates (10), video extraction, Asahi cleanup
+npm run unit                               # jsdom: next-page (12), series (4), dates (10), video extraction, Markdown export, Asahi cleanup
 python3 server/server.py &                 # 127.0.0.1:8765: fixtures + mock LLM (/api/chat, /v1/chat/completions)
 cd e2e && python3 e2e.py                   # needs: pip install playwright (Chromium with --load-extension)
 ```

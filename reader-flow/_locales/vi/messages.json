@@ -41,6 +41,30 @@
   "fontLarger": {
     "message": "Chữ lớn hơn"
   },
+  "mdExportTitle": {
+    "message": "Lưu các trang đã tải thành Markdown"
+  },
+  "mdExported": {
+    "message": "Đang lưu {1} trang đã tải…"
+  },
+  "mdExportFailed": {
+    "message": "Không thể lưu Markdown"
+  },
+  "mdSource": {
+    "message": "Nguồn"
+  },
+  "mdVideo": {
+    "message": "Xem video"
+  },
+  "mdAudio": {
+    "message": "Nghe âm thanh"
+  },
+  "mdImage": {
+    "message": "Ảnh"
+  },
+  "mdVideoPoster": {
+    "message": "Ảnh đại diện video"
+  },
   "closeTitle": {
     "message": "Đóng (Esc)"
   },

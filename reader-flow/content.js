@@ -234,14 +234,44 @@
       E.trstat = h('span', { class: 'rf-trstat', role: 'status' });
       E.listenBtn = h('button', { class: 'rf-listen', 'aria-pressed': String(!!this.playerOpen), onclick: () => this.toggleListen() }, rfT('ttsListen'));
       E.trBtn = h('button', { class: 'rf-trbtn', 'aria-pressed': 'false', onclick: () => this.toggleTranslate() }, rfT('trStart'));
+      E.exportBtn = h('button', { class: 'rf-export', title: rfT('mdExportTitle'), 'aria-label': rfT('mdExportTitle'), onclick: () => this.exportMarkdown() }, '↓ .md');
       E.panelBtn = h('button', { class: 'rf-opt', title: rfT('settings'), 'aria-label': rfT('settings'), 'aria-pressed': 'false', onclick: () => this.togglePanel() }, rfT('settings'));
       return h('header', { class: 'rf-bar' },
         h('div', { class: 'rf-where' }, E.site, E.counter, E.trstat),
         h('div', { class: 'rf-tools' },
           h('button', { class: 'rf-opt', title: rfT('fontSmaller'), 'aria-label': rfT('fontSmaller'), onclick: () => this.bump('fontSize', -1, 13, 32) }, 'A−'),
           h('button', { class: 'rf-opt', title: rfT('fontLarger'), 'aria-label': rfT('fontLarger'), onclick: () => this.bump('fontSize', 1, 13, 32) }, 'A+'),
-          E.listenBtn, E.trBtn, E.panelBtn,
+          E.listenBtn, E.trBtn, E.exportBtn, E.panelBtn,
           h('button', { title: rfT('closeTitle'), 'aria-label': rfT('closeLabel'), onclick: () => this.requestClose() }, '✕')));
+    }
+
+    /* Xuất đúng những trang đã tải và bản dịch hoàn tất tại thời điểm bấm. */
+    exportMarkdown() {
+      const pages = (this.pages || []).slice();
+      if (!pages.length) return;
+      const btn = this.el.exportBtn;
+      let url = '';
+      try {
+        const labels = {
+          source: rfT('mdSource'), page: (n) => rfT('pageN', n),
+          video: rfT('mdVideo'), audio: rfT('mdAudio'), image: rfT('mdImage'),
+          videoPoster: rfT('mdVideoPoster'), transcript: rfT('transcript')
+        };
+        const markdown = RFMarkdown.render(pages, this.s.trDisplay, labels);
+        const blob = new Blob([markdown], { type: 'text/markdown;charset=utf-8' });
+        url = URL.createObjectURL(blob);
+        const a = h('a', { href: url, download: RFMarkdown.filename(pages[0].title || document.title) });
+        document.documentElement.append(a);
+        try { a.click(); } finally { a.remove(); }
+        btn.textContent = rfT('mdExported', pages.length);
+        setTimeout(() => { if (btn.isConnected) btn.textContent = '↓ .md'; }, 3000);
+        setTimeout(() => URL.revokeObjectURL(url), 30000);
+      } catch (e) {
+        if (url) URL.revokeObjectURL(url);
+        btn.textContent = rfT('mdExportFailed');
+        setTimeout(() => { if (btn.isConnected) btn.textContent = '↓ .md'; }, 3000);
+        console.warn('[Reader Flow] Markdown export failed:', e);
+      }
     }
 
     /* Đổi ngôn ngữ giao diện khi đang mở: dựng lại thanh công cụ, bảng cài đặt và các nhãn đã hiển thị. */

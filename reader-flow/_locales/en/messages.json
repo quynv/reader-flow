@@ -41,6 +41,30 @@
   "fontLarger": {
     "message": "Larger text"
   },
+  "mdExportTitle": {
+    "message": "Save loaded pages as Markdown"
+  },
+  "mdExported": {
+    "message": "Saving {1} loaded page(s)…"
+  },
+  "mdExportFailed": {
+    "message": "Couldn't save Markdown"
+  },
+  "mdSource": {
+    "message": "Source"
+  },
+  "mdVideo": {
+    "message": "Watch video"
+  },
+  "mdAudio": {
+    "message": "Listen to audio"
+  },
+  "mdImage": {
+    "message": "Image"
+  },
+  "mdVideoPoster": {
+    "message": "Video poster"
+  },
   "closeTitle": {
     "message": "Close (Esc)"
   },

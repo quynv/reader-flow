@@ -15,7 +15,7 @@ function updateMenu() {
 
 const CONTENT_FILES = [
   'lib/Readability.js', 'lib/settings.js', 'lib/i18n.js', 'lib/fetch-util.js', 'lib/nextpage.js',
-  'lib/extract.js', 'lib/translate.js', 'lib/tts.js', 'lib/fonts.js', 'lib/reader-css.js', 'content.js'
+  'lib/extract.js', 'lib/translate.js', 'lib/export-markdown.js', 'lib/tts.js', 'lib/fonts.js', 'lib/reader-css.js', 'content.js'
 ];
 
 async function toggleReader(tab) {

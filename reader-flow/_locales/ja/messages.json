@@ -41,6 +41,30 @@
   "fontLarger": {
     "message": "文字を大きく"
   },
+  "mdExportTitle": {
+    "message": "読み込み済みページをMarkdownで保存"
+  },
+  "mdExported": {
+    "message": "読み込み済みの{1}ページを保存中…"
+  },
+  "mdExportFailed": {
+    "message": "Markdownを保存できませんでした"
+  },
+  "mdSource": {
+    "message": "元ページ"
+  },
+  "mdVideo": {
+    "message": "動画を見る"
+  },
+  "mdAudio": {
+    "message": "音声を聴く"
+  },
+  "mdImage": {
+    "message": "画像"
+  },
+  "mdVideoPoster": {
+    "message": "動画のサムネイル"
+  },
   "closeTitle": {
     "message": "閉じる (Esc)"
   },
